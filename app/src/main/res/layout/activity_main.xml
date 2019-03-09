@@ -48,12 +48,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="                         "/>
-        <Button
+        <ImageButton
             android:id="@+id/btnMove"
-            android:layout_weight="8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+"/>
+            android:text="+"
+            android:src="@drawable/cross"/>
         <TextView
             android:layout_weight="1"
             android:layout_width="wrap_content"
@@ -86,7 +86,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="164dp"
+                android:layout_height="131dp"
                 android:src="@drawable/ic_rain" />
             <TextView
                 android:layout_width="match_parent"
@@ -110,7 +110,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="165dp"
+                android:layout_height="131dp"
                 android:src="@drawable/ic_rain" />
             <TextView
                 android:layout_width="match_parent"
@@ -133,7 +133,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="164dp"
+                android:layout_height="131dp"
                 android:src="@drawable/ic_rain" />
             <TextView
                 android:layout_width="match_parent"
@@ -156,7 +156,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="164dp"
+                android:layout_height="135dp"
                 android:src="@drawable/ic_rain" />
             <TextView
                 android:layout_width="match_parent"
@@ -179,7 +179,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="164dp"
+                android:layout_height="135dp"
                 android:src="@drawable/ic_rain" />
             <TextView
                 android:layout_width="match_parent"

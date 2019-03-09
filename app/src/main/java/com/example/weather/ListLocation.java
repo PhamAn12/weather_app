@@ -1,4 +1,3 @@
-// API key: 94f7d25e8b529c9034a92a47e021663c
 package com.example.weather;
 
 import android.content.Intent;
@@ -8,19 +7,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-public class MainActivity extends AppCompatActivity {
+public class ListLocation extends AppCompatActivity {
     ImageButton imageButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        imageButton = (ImageButton) findViewById(R.id.btnMove);
+        setContentView(R.layout.activity_list_location);
+
+        imageButton = (ImageButton) findViewById(R.id.add_location);
+
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(MainActivity.this,ListLocation.class);
+                Intent intent = new Intent(ListLocation.this,ManageLocation.class);
                 startActivity(intent);
             }
         });
+
     }
 }
