@@ -9,12 +9,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.weather.Fragments.SevenDays;
 import com.example.weather.Fragments.Today;
 import com.example.weather.Fragments.Tomorrow;
+import com.example.weather.Objects.WeatherToday;
+import com.example.weather.Utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+//        WeatherToday weatherToday = Utils.GetCurrentWeatherData("Hanoi", MainActivity.this);
+//        Log.d("onCreate: ", "day " + weatherToday.getDay());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
