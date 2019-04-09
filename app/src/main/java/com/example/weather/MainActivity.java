@@ -1,5 +1,7 @@
 package com.example.weather;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,42 +11,51 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.weather.Fragments.SevenDays;
 import com.example.weather.Fragments.Today;
 import com.example.weather.Fragments.Tomorrow;
+import com.example.weather.Object.WeatherToday;
+import com.example.weather.Utils.Utils;
+import com.github.mikephil.charting.charts.CombinedChart;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class MainActivity extends AppCompatActivity {
-
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
-
+    ImageView imageSearch;
+    TextView textViewCity ;
+    Button button;
+    private String country;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
@@ -52,22 +63,99 @@ public class MainActivity extends AppCompatActivity {
 
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
+
+        imageSearch = (ImageView) findViewById(R.id.search);
+        imageSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivityForResult(intent, 810);
+            }
+        });
+
+        String dataCity = "Hanoi";
+        textViewCity = (TextView) findViewById(R.id.city);
+        Intent intent = getIntent();
+        dataCity = intent.getStringExtra("cityName");
+        Log.d("datacity", "onCreate: "+ dataCity);
+        textViewCity.setText(dataCity);
+        GetCurrentWeatherData(dataCity);
+        Log.d("country", "onCreate: " + country);
     }
+    // Lấy các dữ liệu hiện tại
+    public void GetCurrentWeatherData(final String data) {
+        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + data + "&units=metric&appid=b195255676fe196e397398381ac43e10";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            Log.d("RESPONSE API", response);
+
+                            String day = jsonObject.getString("dt");
+                            String name = jsonObject.getString("name");
+                        //    txtName.setText(name);
+
+                            long l = Long.valueOf(day);
+                            Date date = new Date(l * 1000L);
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE yyyy-MM-dd HH-mm-ss");
+                            String Day = simpleDateFormat.format(date);
+                        //    txtDay.setText(Day);
+
+                            JSONArray jsonArrayWeather = jsonObject.getJSONArray("weather");
+                            JSONObject jsonObject1Weather = jsonArrayWeather.getJSONObject(0);
+                            String status = jsonObject1Weather.getString("main");
+                            String icon = jsonObject1Weather.getString("icon");
+                        //    Picasso.with(MainActivity.this).load("http://openweathermap.org/img/w/" + icon + ".png").into(imgIcon);
+                        //    txtState.setText(status);
+
+                            JSONObject jsonObject1Main = jsonObject.getJSONObject("main");
+                            String nhietdo = jsonObject1Main.getString("temp");
+                            String doam = jsonObject1Main.getString("humidity");
+                            Double a = Double.valueOf(nhietdo);
+                            String Nhietdo = String.valueOf(a.intValue());
+                        //    txtTemp.setText(Nhietdo + "°C");
+                        //    txtHumidity.setText(doam + "%");
+
+                            JSONObject jsonObject1Wind = jsonObject.getJSONObject("wind");
+                            String gio = jsonObject1Wind.getString("speed");
+                         //   txtWind.setText(gio + "m/s");
+
+                            JSONObject jsonObject1Clouds = jsonObject.getJSONObject("clouds");
+                            String may = jsonObject1Clouds.getString("all");
+                        //    txtCloud.setText(may + "%");
+
+                            JSONObject jsonObject1Sys = jsonObject.getJSONObject("sys");
+                            country = jsonObject1Sys.getString("country");
+                            Log.d("Nước", "onResponse: " + country);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
+        requestQueue.add(stringRequest);
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -75,9 +163,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
+
+
+
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter (FragmentManager n) { super(n); }
@@ -86,6 +174,11 @@ public class MainActivity extends AppCompatActivity {
             switch (i) {
                 case 0:
                     Today today = new Today();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("dataC",textViewCity.getText().toString());
+                    Log.d("adap", "getItem: " + country);
+                    bundle.putString("dn",country);
+                    today.setArguments(bundle);
                     return today;
                 case 1:
                     Tomorrow tomorrow = new Tomorrow();
@@ -103,19 +196,8 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             return 3;
         }
-//        @Override
-//        public CharSequence getPagetitle (int position) {
-//            switch (position) {
-//                case 1:
-//                    return "Today";
-//                case 2:
-//                    return "Tomorrow";
-//                case 3:
-//                    return "7 days";
-//                default:
-//                    return null;
-//            }
-//        }
     }
+
+
 
 }
