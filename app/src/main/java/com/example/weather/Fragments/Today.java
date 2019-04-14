@@ -61,15 +61,17 @@ public class Today extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        String city = "";
+        String city = "Hanoi";
         Log.d("oid", "onCreateView: " );
         Bundle bundle = this.getArguments();
     //    Nhận argument từ main activity
         if(bundle != null) {
-            city = bundle.getString("dataC");
-            String country = bundle.getString("dn");
-            Log.d("ok", "onCreateView: " + city);
-            Log.d("ĐN", "onCreateView: " + country);
+            if ( bundle.getString("dataC") != null && bundle.getString("dataC") != "") {
+                city = bundle.getString("dataC");
+                String country = bundle.getString("dn");
+                Log.d("ok", "onCreateView: " + city);
+                Log.d("ĐN", "onCreateView: " + country);
+            }
         }
         Log.d("okdccc", "onCreateView: " + city);
         View view = inflater.inflate(R.layout.today, container, false);
@@ -127,6 +129,7 @@ public class Today extends Fragment {
 
 
     public void GetCurrentWeatherData(final String data) {
+        Log.d("today", "city: " + data);
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
         String url = "http://api.openweathermap.org/data/2.5/weather?q=" + data + "&units=metric&appid=b195255676fe196e397398381ac43e10";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -179,6 +182,7 @@ public class Today extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Log.d("today", "err:  " + error);
                         Toast.makeText(getActivity().getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
