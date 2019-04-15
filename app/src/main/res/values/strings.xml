@@ -12,4 +12,5 @@
     <string name="day">txt_day</string>
     <string name="status">txt_status</string>
     <string name="txtCity_Week">City</string>
+    <string name="txt_appbar_city">City</string>
 </resources>

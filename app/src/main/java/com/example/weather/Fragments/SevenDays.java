@@ -60,7 +60,6 @@ public class SevenDays extends Fragment {
     }
     private void Anhxa(View view) {
 //        imageBack = (ImageView) view.findViewById(R.id.imageviewTrangthai);
-        txtName = (TextView) view.findViewById(R.id.txtCity_Week);
         lv = (ListView) view.findViewById(R.id.lvWeatherOfWeek);
 
         mangthoitiet = new ArrayList<WeatherToday>();
@@ -81,7 +80,6 @@ public class SevenDays extends Fragment {
 
                             JSONObject jsonObject1City = jsonObject1.getJSONObject("city");
                             String name = jsonObject1City.getString("name");
-                            txtName.setText(name);
 
                             String ngay = "";
                             long l = 0;
@@ -109,8 +107,7 @@ public class SevenDays extends Fragment {
                                 JSONObject jsonObjectWeather = jsonArrayWeather.getJSONObject(0);
                                 String status = jsonObjectWeather.getString("description");
                                 String icon = jsonObjectWeather.getString("icon");
-                                Picasso.with(getContext()).load("http://openweathermap.org/img/w/" + icon + ".png").into(imgStatus);
-                                mangthoitiet.add(new WeatherToday(Day, status, NhietdoMin, NhietdoMax));
+                                mangthoitiet.add(new WeatherToday(Day, status, NhietdoMin, NhietdoMax, icon));
                             }
                             customAdapter.notifyDataSetChanged();
                         } catch (JSONException e) {

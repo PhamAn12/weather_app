@@ -4,21 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/txtCity_Week"
-            android:textStyle="bold"
-            android:text="@string/txtCity_Week"
-            android:textSize="30dp"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/mauChuDam"
-            tools:text="City"
-            android:layout_gravity="center"/>
-    </RelativeLayout>
+
     <ListView
         android:id="@+id/lvWeatherOfWeek"
         android:layout_width="match_parent"

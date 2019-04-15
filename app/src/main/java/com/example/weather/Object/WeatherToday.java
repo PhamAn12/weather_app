@@ -1,10 +1,12 @@
 package com.example.weather.Object;
 
 public class WeatherToday {
-    String Day;
-    String Status;
-    String MinTemp;
-    String MaxTemp;
+    private String Day;
+    private String Status;
+    private String MinTemp;
+    private String MaxTemp;
+    private String ImgStatus;
+    private String Humidity;
 
     public String getDay() {
         return Day;
@@ -38,11 +40,27 @@ public class WeatherToday {
         MaxTemp = maxTemp;
     }
 
-    public WeatherToday(String day, String status, String minTemp, String maxTemp) {
+    public WeatherToday(String day, String status, String minTemp, String maxTemp, String imgStatus) {
         Day = day;
         Status = status;
-
+        ImgStatus = imgStatus;
         MinTemp = minTemp;
         MaxTemp = maxTemp;
+    }
+
+    public String getImgStatus() {
+        return ImgStatus;
+    }
+
+    public void setImgStatus(String imgStatus) {
+        ImgStatus = imgStatus;
+    }
+
+    public String getHumidity() {
+        return Humidity;
+    }
+
+    public void setHumidity(String humidity) {
+        Humidity = humidity;
     }
 }

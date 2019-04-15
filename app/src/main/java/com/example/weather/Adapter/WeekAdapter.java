@@ -56,7 +56,7 @@ public class WeekAdapter extends BaseAdapter {
         txtMinTemp.setText(thoitiet.getMinTemp() + "°C");
         txtMaxTemp.setText(thoitiet.getMaxTemp() + "°C");
 
-        Picasso.with(context).load("http://openweathermap.org/img/w/"+thoitiet.Image+".png").into(imgStatus);
+        Picasso.with(context).load("http://openweathermap.org/img/w/"+thoitiet.getImgStatus()+".png").into(imgStatus);
         return view;
     }
 }
