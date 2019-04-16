@@ -74,13 +74,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         String dataCity = "Hanoi";
-        textViewCity = (TextView) findViewById(R.id.city);
+        textViewCity = (TextView) findViewById(R.id.txt_appbar_city);
         Intent intent = getIntent();
         dataCity = intent.getStringExtra("cityName");
+        if(dataCity != "") {
+            dataCity = "Hanoi";
+        }
         Log.d("datacity", "onCreate: "+ dataCity);
         textViewCity.setText(dataCity);
         GetCurrentWeatherData(dataCity);
         Log.d("country", "onCreate: " + country);
+        getWindow().setBackgroundDrawableResource(R.drawable.blue);
     }
     // Lấy các dữ liệu hiện tại
     public void GetCurrentWeatherData(final String data) {
