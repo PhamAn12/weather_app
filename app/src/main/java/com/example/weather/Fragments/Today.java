@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class Today extends Fragment {
     RecyclerView recyclerView24h;
     RecyclerView24hAdapter recycler24hAdapter;
     LineChartView lineChartView;
+    LinearLayout layout;
     List<String> axisData = new ArrayList<>();
     List<String>yAxisData = new ArrayList<>();
 //    LineChartView lineChartView;
@@ -75,10 +77,15 @@ public class Today extends Fragment {
         }
         Log.d("okdccc", "onCreateView: " + city);
         View view = inflater.inflate(R.layout.today, container, false);
+
         textViewDay = (TextView) view.findViewById(R.id.day);
         textViewFell = (TextView) view.findViewById(R.id.camthay);
         txtTemp = (TextView) view.findViewById(R.id.txtTemp);
         recyclerView24h = (RecyclerView) view.findViewById(R.id.recycler24h);
+
+
+        layout = (LinearLayout) view.findViewById(R.id.today);
+
         recycler24hAdapter = new RecyclerView24hAdapter(getActivity().getApplicationContext(), new ArrayList<Thoitiet24h>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView24h.setLayoutManager(layoutManager);
@@ -164,6 +171,11 @@ public class Today extends Fragment {
                             String Nhietdo = String.valueOf(a.intValue());
                             txtTemp.setText(Nhietdo);
                             //    txtHumidity.setText(doam + "%");
+                            int nd = Integer.parseInt(Nhietdo);
+                            if(nd > 22)
+                                layout.setBackgroundColor(Color.RED);
+                            else
+                                layout.setBackgroundColor(Color.GREEN);
 
                             JSONObject jsonObject1Wind = jsonObject.getJSONObject("wind");
                             String gio = jsonObject1Wind.getString("speed");

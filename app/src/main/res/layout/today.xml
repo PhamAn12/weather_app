@@ -7,7 +7,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FF0"
+    android:id="@+id/today">
 
     <TextView
         android:id="@+id/day"
@@ -66,7 +68,7 @@
         android:layout_height="100dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="90dp">
-
     </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>
 </ScrollView>
