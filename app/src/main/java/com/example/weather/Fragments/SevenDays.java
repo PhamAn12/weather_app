@@ -48,11 +48,12 @@ public class SevenDays extends Fragment {
             if ( bundle.getString("dataC") != null && bundle.getString("dataC") != "") {
                 city = bundle.getString("dataC");
                 String country = bundle.getString("dn");
-                Log.d("ok", "onCreateView: " + city);
-                Log.d("ĐN", "onCreateView: " + country);
+                Log.d("okCity", "onCreateView: " + city);
+                Log.d("ĐNN", "onCreateView: " + country);
             }
 
         }
+        Log.d("okdtomorrow", "onCreateView: " + city);
         View view = inflater.inflate(R.layout.seven_day, container, false);
         Anhxa(view);
         get7DaysData(city);

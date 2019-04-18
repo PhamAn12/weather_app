@@ -109,7 +109,7 @@ public class Utils extends AppCompatActivity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.today);
-        today = (TextView) findViewById(R.id.camthay);
+        today = (TextView) findViewById(R.id.doam);
         today.setText("anfdfsd,f");
     }
     public String getMyData() {

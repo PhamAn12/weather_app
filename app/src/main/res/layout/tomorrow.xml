@@ -1,6 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
 
-</LinearLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/today">
+
+        <TextView
+            android:id="@+id/tomorrow"
+            android:textColor="@color/common"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:textSize="20dp"
+            android:text="Tháng tư 3,8:33 PM"
+            tools:text="Today" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingLeft="15dp"
+            android:weightSum="10">
+            <TextView
+                android:layout_marginTop="@dimen/padding_top_status"
+                android:textColor="@color/common"
+                android:id="@+id/txtStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="50"
+                android:textSize="30dp"
+                android:layout_weight="6"/>
+
+            <ImageView
+                android:id="@+id/iconweather"
+                android:layout_width="400dp"
+                android:layout_height="200dp"
+                android:adjustViewBounds="false"
+                android:layout_weight="4"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/doam"
+            android:textColor="@color/common"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cảm thấy buồn"
+            android:paddingLeft="15dp"
+            android:textSize="20dp"/>
+        <TextView
+            android:id="@+id/wind"
+            android:textColor="@color/common"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:text="Đêm 19 Ngày 22"
+            android:textSize="20dp"/>
+
+        <!--<android:lecho.lib.hellocharts.view.LineChartView-->
+        <!--android:id="@+id/chart"-->
+        <!--layout_marginLeft="50dp"-->
+        <!--android:layout_width="400dp"-->
+        <!--android:layout_height="100dp" />-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler24h"
+            android:layout_width="400dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="90dp">
+        </android.support.v7.widget.RecyclerView>
+
+
+    </LinearLayout>
+</ScrollView>
