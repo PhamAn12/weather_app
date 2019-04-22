@@ -5,12 +5,15 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:textColor="@color/common"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/today">
 
     <TextView
         android:id="@+id/day"
+        android:textColor="@color/common"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="15dp"
@@ -27,6 +30,7 @@
         android:weightSum="2">
         <TextView
             android:id="@+id/txtTemp"
+            android:textColor="@color/common"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="37"
@@ -34,21 +38,25 @@
             android:layout_weight="1"/>
 
         <ImageView
-            android:layout_width="match_parent"
+            android:id="@+id/iconweather"
+            android:layout_width="400dp"
             android:layout_height="200dp"
             android:adjustViewBounds="false"
-            android:scaleType="fitXY"
-            android:src="@drawable/sun" />
+            android:layout_weight="1"
+             />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/camthay"
+        android:id="@+id/doam"
+        android:textColor="@color/common"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Cảm thấy buồn"
         android:paddingLeft="15dp"
         android:textSize="20dp"/>
     <TextView
+        android:id="@+id/wind"
+        android:textColor="@color/common"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="15dp"
@@ -66,7 +74,8 @@
         android:layout_height="100dp"
         android:layout_marginLeft="4dp"
         android:layout_marginTop="90dp">
-
     </android.support.v7.widget.RecyclerView>
+
+
 </LinearLayout>
 </ScrollView>

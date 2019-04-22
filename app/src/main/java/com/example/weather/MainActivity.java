@@ -73,14 +73,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String dataCity = "Hanoi";
+        String dataCity = "Ha Noi";
+
+
         textViewCity = (TextView) findViewById(R.id.txt_appbar_city);
-        Intent intent = getIntent();
-        dataCity = intent.getStringExtra("cityName");
-        if(dataCity != "") {
-            dataCity = "Hanoi";
+        Log.d("text", "onCreate: " + textViewCity.getText().toString());
+        if(textViewCity.getText().toString().equals("") || textViewCity.getText().toString() == null) {
+            Log.d("vaoday", "onCreate: vao day");
+            textViewCity.setText("Hanoi");
+            GetCurrentWeatherData("Hanoi");
         }
-        Log.d("datacity", "onCreate: "+ dataCity);
+
+//
+        Intent intent = getIntent();
+        if(intent.getStringExtra("cityName") != "" && intent.getStringExtra("cityName") !=null) {
+            dataCity = intent.getStringExtra("cityName");
+        }
+        Log.d("main", "city: " + dataCity);
+
+//        Log.d("datacity", "onCreate: "+ dataCity);
         textViewCity.setText(dataCity);
         GetCurrentWeatherData(dataCity);
         Log.d("country", "onCreate: " + country);
@@ -186,9 +197,19 @@ public class MainActivity extends AppCompatActivity {
                     return today;
                 case 1:
                     Tomorrow tomorrow = new Tomorrow();
+                    Bundle bundleTomrrow = new Bundle();
+                    bundleTomrrow.putString("dataC",textViewCity.getText().toString());
+                    Log.d("adapTomorrow", "getItem: " + country);
+                    bundleTomrrow.putString("dn",country);
+                    tomorrow.setArguments(bundleTomrrow);
                     return tomorrow;
                 case 2:
                     SevenDays sevenDays = new SevenDays();
+                    Bundle bundleSevenDays = new Bundle();
+                    bundleSevenDays.putString("dataC",textViewCity.getText().toString());
+                    Log.d("sevendatddd", "getItem: " + country);
+                    bundleSevenDays.putString("dn",country);
+                    sevenDays.setArguments(bundleSevenDays);
                     return sevenDays;
                 default:
                     return null;

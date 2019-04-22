@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.example.weather.Object.Thoitiet24h;
 import com.example.weather.Object.WeatherToday;
 import com.example.weather.R;
 import com.example.weather.Utils.Utils;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,12 +51,14 @@ import lecho.lib.hellocharts.view.LineChartView;
 import static android.content.ContentValues.TAG;
 
 public class Today extends Fragment {
-    TextView textViewDay , textViewFell, txtTemp;
+    TextView textViewDay , textDoam, txtTemp, txtWind;
     RecyclerView recyclerView24h;
     RecyclerView24hAdapter recycler24hAdapter;
     LineChartView lineChartView;
+    LinearLayout layout;
     List<String> axisData = new ArrayList<>();
     List<String>yAxisData = new ArrayList<>();
+    ImageView imageView;
 //    LineChartView lineChartView;
 //    String[] axisData = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept",
 //            "Oct", "Nov", "Dec"};
@@ -75,10 +80,15 @@ public class Today extends Fragment {
         }
         Log.d("okdccc", "onCreateView: " + city);
         View view = inflater.inflate(R.layout.today, container, false);
+        txtWind = (TextView) view.findViewById(R.id.wind);
         textViewDay = (TextView) view.findViewById(R.id.day);
-        textViewFell = (TextView) view.findViewById(R.id.camthay);
+        textDoam = (TextView) view.findViewById(R.id.doam);
         txtTemp = (TextView) view.findViewById(R.id.txtTemp);
         recyclerView24h = (RecyclerView) view.findViewById(R.id.recycler24h);
+
+        imageView = (ImageView) view.findViewById(R.id.iconweather);
+        layout = (LinearLayout) view.findViewById(R.id.today);
+
         recycler24hAdapter = new RecyclerView24hAdapter(getActivity().getApplicationContext(), new ArrayList<Thoitiet24h>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView24h.setLayoutManager(layoutManager);
@@ -122,7 +132,6 @@ public class Today extends Fragment {
 
         GetCurrentWeatherData(city);
         get24hData(city);
-        textViewFell.setText("KHá BảNh");
         Log.d("kdkd", "onCreateView: " + axisData);
         return view;
     }
@@ -146,7 +155,7 @@ public class Today extends Fragment {
 
                             long l = Long.valueOf(day);
                             Date date = new Date(l * 1000L);
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE yyyy-MM-dd HH-mm-ss");
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE yyyy-MM-dd");
                             String Day = simpleDateFormat.format(date);
                             textViewDay.setText(Day);
 
@@ -154,20 +163,26 @@ public class Today extends Fragment {
                             JSONObject jsonObject1Weather = jsonArrayWeather.getJSONObject(0);
                             String status = jsonObject1Weather.getString("main");
                             String icon = jsonObject1Weather.getString("icon");
-                            //    Picasso.with(MainActivity.this).load("http://openweathermap.org/img/w/" + icon + ".png").into(imgIcon);
+                            Picasso.with(getActivity().getApplicationContext()).load("http://openweathermap.org/img/w/" + icon + ".png").into(imageView);
                             //    txtState.setText(status);
-
+                            Log.d("status", "onResponse: " + status);
                             JSONObject jsonObject1Main = jsonObject.getJSONObject("main");
                             String nhietdo = jsonObject1Main.getString("temp");
                             String doam = jsonObject1Main.getString("humidity");
                             Double a = Double.valueOf(nhietdo);
                             String Nhietdo = String.valueOf(a.intValue());
                             txtTemp.setText(Nhietdo);
+                            textDoam.setText("Humidity: " + doam + "%");
                             //    txtHumidity.setText(doam + "%");
+//                            int nd = Integer.parseInt(Nhietdo);
+//                            if(nd > 22)
+//                                layout.setBackgroundColor(Color.RED);
+//                            else
+//                                layout.setBackgroundColor(Color.GREEN);
 
                             JSONObject jsonObject1Wind = jsonObject.getJSONObject("wind");
                             String gio = jsonObject1Wind.getString("speed");
-                            //   txtWind.setText(gio + "m/s");
+                            txtWind.setText("Wind : "+ gio + " m/s");
 
                             JSONObject jsonObject1Clouds = jsonObject.getJSONObject("clouds");
                             String may = jsonObject1Clouds.getString("all");
@@ -209,7 +224,7 @@ public class Today extends Fragment {
                             JSONArray jsonArrayList = jsonObject1.getJSONArray("list");
                             List<Thoitiet24h> tempList = new ArrayList<>();
                             Log.d("LENGTH", "onResponse: " + jsonArrayList.length());
-                            for (int i = 0; i < 6; i++) {
+                            for (int i = 0; i < jsonArrayList.length(); i++) {
 
                                 JSONObject jsonObjectList = jsonArrayList.getJSONObject(i);
 
