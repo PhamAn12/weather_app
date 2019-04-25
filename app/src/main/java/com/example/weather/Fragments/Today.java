@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.paperdb.Paper;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -122,7 +123,8 @@ public class Today extends Fragment {
 
         GetCurrentWeatherData(city);
         get24hData(city);
-        textViewFell.setText("KHá BảNh");
+//
+//        textViewFell.setText("KHá BảNh");
         Log.d("kdkd", "onCreateView: " + axisData);
         return view;
     }
@@ -153,6 +155,7 @@ public class Today extends Fragment {
                             JSONArray jsonArrayWeather = jsonObject.getJSONArray("weather");
                             JSONObject jsonObject1Weather = jsonArrayWeather.getJSONObject(0);
                             String status = jsonObject1Weather.getString("main");
+                            Log.d("status","ma" + status);
                             String icon = jsonObject1Weather.getString("icon");
                             //    Picasso.with(MainActivity.this).load("http://openweathermap.org/img/w/" + icon + ".png").into(imgIcon);
                             //    txtState.setText(status);
@@ -173,7 +176,9 @@ public class Today extends Fragment {
                             String may = jsonObject1Clouds.getString("all");
                             //    txtCloud.setText(may + "%");
 
-
+                            Paper.book().write("temp",txtTemp.getText());
+                            Paper.book().write("status",status);
+                            Paper.book().write("icon",icon);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
