@@ -13,4 +13,6 @@
     <string name="status">txt_status</string>
     <string name="txtCity_Week">City</string>
     <string name="txt_appbar_city">City</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>
