@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.paperdb.Paper;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
@@ -173,6 +174,9 @@ public class Today extends Fragment {
                             String Nhietdo = String.valueOf(a.intValue());
                             txtTemp.setText(Nhietdo);
                             textDoam.setText("Humidity: " + doam + "%");
+                            Paper.book().write("temp",nhietdo);
+                            Paper.book().write("status",status);
+                            Paper.book().write("icon",icon);
                             //    txtHumidity.setText(doam + "%");
 //                            int nd = Integer.parseInt(Nhietdo);
 //                            if(nd > 22)
@@ -187,6 +191,7 @@ public class Today extends Fragment {
                             JSONObject jsonObject1Clouds = jsonObject.getJSONObject("clouds");
                             String may = jsonObject1Clouds.getString("all");
                             //    txtCloud.setText(may + "%");
+
 
 
                         } catch (JSONException e) {

@@ -69,6 +69,7 @@ public class Weather_Widget extends AppWidgetProvider {
 //        this.getCurrentWeatherWidget(context, "Hanoi");
 
         String temp = Paper.book().read("temp");
+        Log.d("temp","maa " + temp);
         String tempurature = temp + "°C";
         String icon = Paper.book().read("icon");
         Log.d("icon","nhu cuc " + icon);
@@ -78,15 +79,12 @@ public class Weather_Widget extends AppWidgetProvider {
         String status = Paper.book().read("status");
         views.setTextViewText(R.id.txt_temperature,tempurature);
         views.setTextViewText(R.id.txt_status, status);
-        views.setImageViewUri(R.id.img_widget, Uri.parse(link));
+//        views.setImageViewUri(R.id.img_widget, Uri.parse(link));
 //
 //        Picasso.with(context).load(link).into(img_widget);
-//        views.setImageViewResource(R.id.img_widget,img_widget.getId());
-//        Picasso.with(context).load(R.id.img_weather).into(img_widget);
         views.setOnClickPendingIntent(R.id.widget_layout,pendingIntent);
 
         // Instruct the widget manager to update the widget
-//        Log.d("widget","measage"+txt_temperature.getText()+txt_status.getText());
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
 
@@ -95,7 +93,6 @@ public class Weather_Widget extends AppWidgetProvider {
 
             super.onReceive(context, intent);
             if (intent.getAction().equals(CLICK_ACTION)) {
-                Toast.makeText(context, "WIDGET CLIKED", Toast.LENGTH_SHORT).show();
                 intent = new Intent(Intent.ACTION_VIEW);
                 intent.setClass(context, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
