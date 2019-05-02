@@ -89,6 +89,10 @@ public class MainActivity extends AppCompatActivity {
         if(intent.getStringExtra("cityName") != "" && intent.getStringExtra("cityName") !=null) {
             dataCity = intent.getStringExtra("cityName");
         }
+        else if(intent.getStringExtra("city") != "" && intent.getStringExtra("city") !=null) {
+            Log.d("main", "city from gps: " + intent.getStringExtra("city"));
+            dataCity = intent.getStringExtra("city");
+        }
         Log.d("main", "city: " + dataCity);
 
 //        Log.d("datacity", "onCreate: "+ dataCity);
