@@ -94,7 +94,7 @@ public class Today extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView24h.setLayoutManager(layoutManager);
         recyclerView24h.setAdapter(recycler24hAdapter);
-
+        Paper.init(getActivity().getApplicationContext());
 //        lineChartView = view.findViewById(R.id.chart);
 //        List yAxisValues = new ArrayList();
 //        List axisValues = new ArrayList();
@@ -174,9 +174,8 @@ public class Today extends Fragment {
                             String Nhietdo = String.valueOf(a.intValue());
                             txtTemp.setText(Nhietdo);
                             textDoam.setText("Humidity: " + doam + "%");
-                            Paper.book().write("temp",nhietdo);
-                            Paper.book().write("status",status);
-                            Paper.book().write("icon",icon);
+
+
                             //    txtHumidity.setText(doam + "%");
 //                            int nd = Integer.parseInt(Nhietdo);
 //                            if(nd > 22)
@@ -192,7 +191,9 @@ public class Today extends Fragment {
                             String may = jsonObject1Clouds.getString("all");
                             //    txtCloud.setText(may + "%");
 
-
+                            Paper.book().write("temp",nhietdo);
+                            Paper.book().write("status",status);
+                            Paper.book().write("icon",icon);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
