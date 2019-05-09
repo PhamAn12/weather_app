@@ -3,6 +3,7 @@ package com.example.weather.Fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,6 +44,8 @@ public class SevenDays extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         String city = "Hanoi";
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout)getActivity().findViewById(R.id.main_content);
+//        coordinatorLayout.setBackgroundResource(R.drawable.pink);
         Bundle bundle = this.getArguments();
         if(bundle != null) {
             if ( bundle.getString("dataC") != null && bundle.getString("dataC") != "") {
