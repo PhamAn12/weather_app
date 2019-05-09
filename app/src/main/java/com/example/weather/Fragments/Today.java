@@ -51,7 +51,7 @@ import lecho.lib.hellocharts.view.LineChartView;
 import static android.content.ContentValues.TAG;
 
 public class Today extends Fragment {
-    TextView textViewDay , textDoam, txtTemp, txtWind;
+    TextView textViewDay , textDoam, txtTemp, txtWind, txtUvIndex;
     RecyclerView recyclerView24h;
     RecyclerView24hAdapter recycler24hAdapter;
     LineChartView lineChartView;
@@ -85,7 +85,7 @@ public class Today extends Fragment {
         textDoam = (TextView) view.findViewById(R.id.doam);
         txtTemp = (TextView) view.findViewById(R.id.txtTemp);
         recyclerView24h = (RecyclerView) view.findViewById(R.id.recycler24h);
-
+        txtUvIndex = (TextView) view.findViewById(R.id.txtUvIndex);
         imageView = (ImageView) view.findViewById(R.id.iconweather);
         layout = (LinearLayout) view.findViewById(R.id.today);
 
@@ -133,6 +133,7 @@ public class Today extends Fragment {
         GetCurrentWeatherData(city);
         get24hData(city);
         Log.d("kdkd", "onCreateView: " + axisData);
+        GetUVIndex(city);
         return view;
     }
 
@@ -262,4 +263,66 @@ public class Today extends Fragment {
                 });
         requestQueue.add(stringRequest);
     }
+
+    private void GetUVIndex(String data) {
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + data + "&units=metric&appid=b195255676fe196e397398381ac43e10";
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            Log.d("RESPONSE API", response);
+
+                            JSONObject jsonObjectCoord = jsonObject.getJSONObject("coord");
+                            String lat = jsonObjectCoord.getString("lat");
+                            String lon = jsonObjectCoord.getString("lon");
+                            RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+                            //String UVurl = "http://api.openweathermap.org/data/2.5/uvi/forecast?appid=b195255676fe196e397398381ac43e10&lat=" + lat + "&lon="+lon+"&cnt=0";
+                            Log.d("LAT", "onResponse: " + lat + " " + lon);
+                            String UVurl = "http://api.openweathermap.org/data/2.5/uvi?appid=b195255676fe196e397398381ac43e10&lat=" +lat+ "&lon=" +lon+ "";
+                            StringRequest stringRequest = new StringRequest(Request.Method.GET, UVurl,
+                                    new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String responseUV) {
+                                            try {
+                                                Log.d("ABC", "onResponse: " + "ADDD");
+                                                JSONObject jsonObjectUV = new JSONObject(responseUV);
+                                                Log.d("UV INDEX API", responseUV);
+                                                String UVIndex = jsonObjectUV.getString("value");
+                                                Log.d("Uv index",UVIndex);
+                                                txtUvIndex.setText("UV Index: " + UVIndex);
+                                             //   String valueUV = jsonObject.getString("value");
+                                             //   Log.d("UV : ", "onResponse: " + valueUV);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Log.d("today", "err:  " + error);
+                                            Toast.makeText(getActivity().getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                            requestQueue.add(stringRequest);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("today", "err:  " + error);
+                        Toast.makeText(getActivity().getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
+        requestQueue.add(stringRequest);
+    }
+
 }

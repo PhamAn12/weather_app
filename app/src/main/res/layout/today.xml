@@ -76,6 +76,13 @@
         android:layout_marginTop="90dp">
     </android.support.v7.widget.RecyclerView>
 
-
+    <TextView
+        android:id="@+id/txtUvIndex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#FF00"
+        android:paddingLeft="15dp"
+        android:textSize="20dp"
+        android:text="Tia UV"/>
 </LinearLayout>
 </ScrollView>
