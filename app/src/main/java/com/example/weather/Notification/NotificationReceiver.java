@@ -38,7 +38,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
-                context).setSmallIcon(R.mipmap.ic_launcher)
+                context).setSmallIcon(R.drawable.clouds)
                 .setContentTitle("Weather Notification")
                 .setContentText(temp + "       " + status).setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
