@@ -1,8 +1,15 @@
 package com.example.weather;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -30,6 +37,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.weather.Fragments.SevenDays;
 import com.example.weather.Fragments.Today;
 import com.example.weather.Fragments.Tomorrow;
+import com.example.weather.Notification.NotificationReceiver;
 import com.example.weather.Object.WeatherToday;
 import com.example.weather.Utils.Utils;
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -40,12 +48,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import io.paperdb.Paper;
 
 
 public class MainActivity extends AppCompatActivity {
+    private PendingIntent pendingIntent;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     ImageView imageSearch;
@@ -57,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        CallNotification();
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -96,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
 
 //        Log.d("datacity", "onCreate: "+ dataCity);
         textViewCity.setText(dataCity);
+        Intent alarmIntent = new Intent(MainActivity.this, NotificationReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, alarmIntent, 0);
+        CallNotification();
         GetCurrentWeatherData(dataCity);
         Log.d("country", "onCreate: " + country);
         getWindow().setBackgroundDrawableResource(R.drawable.blue);
@@ -181,7 +195,22 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    public void CallNotification( ){
+//
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        int interval = 1000 * 60 * 60;
+//
+        /* Set the alarm to start at 10:30 AM */
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.set(Calendar.MINUTE, 0);
+        Log.d("noti","mess1");
+//
+        /* Repeating on every 20 minutes interval */
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                interval , pendingIntent);
+    }
 
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

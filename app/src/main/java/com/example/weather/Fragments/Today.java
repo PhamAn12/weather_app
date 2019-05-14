@@ -163,6 +163,7 @@ public class Today extends Fragment {
                             JSONArray jsonArrayWeather = jsonObject.getJSONArray("weather");
                             JSONObject jsonObject1Weather = jsonArrayWeather.getJSONObject(0);
                             String status = jsonObject1Weather.getString("main");
+                            String des = jsonObject1Weather.getString("description");
                             String icon = jsonObject1Weather.getString("icon");
                             Picasso.with(getActivity().getApplicationContext()).load("http://openweathermap.org/img/w/" + icon + ".png").into(imageView);
                             //    txtState.setText(status);
@@ -194,6 +195,7 @@ public class Today extends Fragment {
                             Paper.book().write("temp",nhietdo);
                             Paper.book().write("status",status);
                             Paper.book().write("icon",icon);
+                            Paper.book().write("des",des);
 
                         } catch (JSONException e) {
                             e.printStackTrace();

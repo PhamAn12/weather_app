@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,19 +70,30 @@ public class Weather_Widget extends AppWidgetProvider {
 //        this.getCurrentWeatherWidget(context, "Hanoi");
 
         String temp = Paper.book().read("temp");
+        String des = Paper.book().read("des");
         Log.d("temp","maa " + temp);
         String tempurature = temp + "°C";
         String icon = Paper.book().read("icon");
         Log.d("icon","nhu cuc " + icon);
         String link = "http://openweathermap.org/img/w/" + icon + ".png";
-        Log.d("icon","nhu cuc " + link);
 
-        String status = Paper.book().read("status");
+
+        String status = Paper.book().read("status").toString();
         views.setTextViewText(R.id.txt_temperature,tempurature);
         views.setTextViewText(R.id.txt_status, status);
+        Log.d("icon","nhu lin " + status.getClass() + " ss: " + status.compareTo("Clouds"));
 //        views.setImageViewUri(R.id.img_widget, Uri.parse(link));
-//
-//        Picasso.with(context).load(link).into(img_widget);
+//        switch(des){
+//            case: ""
+//        }
+        if(status.equals("Clouds")){
+            Log.d("icon","nhu lin giong " + status);
+            views.setImageViewResource(R.id.img_widget,R.drawable.clouds);
+        }
+//        else if(status.equals("")){
+//            views.setImageViewResource(R.id.img_widget,R.drawable.rain);
+//        }
+        Picasso.with(context).load(link).into(img_widget);
         views.setOnClickPendingIntent(R.id.widget_layout,pendingIntent);
 
         // Instruct the widget manager to update the widget
@@ -99,72 +111,6 @@ public class Weather_Widget extends AppWidgetProvider {
                 context.startActivity(intent);
             }
     }
-
-//    public void getCurrentWeatherWidget(final Context context, final String data){
-//        Log.d("widget", "city: " + data);
-//        RequestQueue requestQueue = Volley.newRequestQueue(context);
-//        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + data + "&units=metric&appid=b195255676fe196e397398381ac43e10";
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(response);
-//                            Log.d("RESPONSE API", response);
-//
-//                            String day = jsonObject.getString("dt");
-//                            String name = jsonObject.getString("name");
-//                            //    txtName.setText(name);
-//
-//                            long l = Long.valueOf(day);
-//                            Date date = new Date(l * 1000L);
-//                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE yyyy-MM-dd HH-mm-ss");
-//                            String Day = simpleDateFormat.format(date);
-//                            //textViewDay.setText(Day);
-//
-//                            JSONArray jsonArrayWeather = jsonObject.getJSONArray("weather");
-//                            JSONObject jsonObject1Weather = jsonArrayWeather.getJSONObject(0);
-//                            String status = jsonObject1Weather.getString("main");
-//                            String icon = jsonObject1Weather.getString("icon");
-//                            txt_status.setText(status);
-//                            Picasso.with(context).load("http://openweathermap.org/img/w/" + icon + ".png").into(img_widget);
-//                            //    txtState.setText(status);
-//
-//                            JSONObject jsonObject1Main = jsonObject.getJSONObject("main");
-//                            String nhietdo = jsonObject1Main.getString("temp");
-//                            String doam = jsonObject1Main.getString("humidity");
-//                            Double a = Double.valueOf(nhietdo);
-//                            String Nhietdo = String.valueOf(a.intValue());
-//                            txt_temperature.setText(Nhietdo);
-//                            //    txtHumidity.setText(doam + "%");
-//
-//                            JSONObject jsonObject1Wind = jsonObject.getJSONObject("wind");
-//                            String gio = jsonObject1Wind.getString("speed");
-//                            //   txtWind.setText(gio + "m/s");
-//
-//                            JSONObject jsonObject1Clouds = jsonObject.getJSONObject("clouds");
-//                            String may = jsonObject1Clouds.getString("all");
-//                            //    txtCloud.setText(may + "%");
-//                            txt_status.setText(status);
-//                            txt_temperature.setText(Nhietdo);
-//                            Picasso.with(context).load("http://openweathermap.org/img/w/"+icon+".png").into(img_widget);
-//                            Log.d("widget", "infor:  " + txt_temperature.getText() + txt_status.getText());
-//                        }
-//                        catch (JSONException e) {
-//                            Log.d("widget","bug: "+ e.toString());
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Log.d("today", "err network:  " + error);
-//                        Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//        requestQueue.add(stringRequest);
-//    }
 
 
     @Override
