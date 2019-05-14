@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -26,18 +27,71 @@ public class SearchActivity extends AppCompatActivity {
     ListView list;
     ArrayAdapter<String> adapter;
     SearchView editSearch;
-    Button buttonSearch;
+    ImageView buttonSearch;
     EditText editTextView;
+    TextView txtLocation;
     ListView listView;
     ImageView imageBack;
+    String cityLocation = "";
+    String city = "";
     List<String> listTP = new ArrayList<>();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        buttonSearch = (Button) findViewById(R.id.buttonSearch);
+        buttonSearch = (ImageView) findViewById(R.id.buttonSearch);
+        txtLocation = (TextView) findViewById(R.id.txt_city_location);
         editTextView = (EditText) findViewById(R.id.search);
         listView = (ListView) findViewById(R.id.listviewSearch);
         imageBack = (ImageView) findViewById(R.id.imageBack);
+        Intent intent = getIntent();
+        if(intent.getStringExtra("cityLocation") !=null) {
+            Log.d("search", intent.getStringExtra("cityLocation"));
+            if (!intent.getStringExtra("cityLocation").isEmpty()) {
+                cityLocation = intent.getStringExtra("cityLocation");
+                Log.d("main", "temp:" + cityLocation);
+                txtLocation.setText(cityLocation + (" (Current position)"));
+                txtLocation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(SearchActivity.this,MainActivity.class);
+                        intent.putExtra("city",cityLocation);
+                        startActivity(intent);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("dataC",cityLocation);
+                        Today today = new Today();
+                        today.setArguments(bundle);
+                        Log.d("data", "onClick: " + cityLocation);
+                    }
+
+                });
+            }
+            else {
+                txtLocation.setText("Restart with GPS");
+                txtLocation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(SearchActivity.this,WaitingScreenActivity.class);
+                        startActivity(intent);
+                    }
+
+                });
+            }
+        }
+        else {
+            txtLocation.setText("Restart with GPS");
+            txtLocation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(SearchActivity.this,WaitingScreenActivity.class);
+                    startActivity(intent);
+                }
+
+            });
+        }
+        if(intent.getStringExtra("city") !=null) {
+            city = intent.getStringExtra("city");
+        }
 
         final String[] tenThanhPho = {"Bắc Giang", "Bắc Kạn", "Bạc Liêu", "Bắc Ninh", "Bến Tre", "Bình Định",
                 "Bình Dương", "Bình Thuận", "Cà Mau", "Cao Bằng", "Cần Thơ", "Đà Nẵng", "Đắk Lắk", "Đắk Nông", "Điện Biên",
@@ -51,7 +105,20 @@ public class SearchActivity extends AppCompatActivity {
             listTP.add(s);
         }
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listTP);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,listTP){
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
+
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+                /*YOUR CHOICE OF COLOR*/
+                textView.setTextColor(getResources().getColor(R.color.common));
+
+                return view;
+            }
+        };
         listView.setAdapter(adapter);
 
         editTextView.addTextChangedListener(new TextWatcher() {
@@ -101,6 +168,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(SearchActivity.this,MainActivity.class);
                 intent.putExtra("cityName",data);
+                intent.putExtra("city",cityLocation);
                 startActivity(intent);
 
                 Bundle bundle = new Bundle();
@@ -111,16 +179,29 @@ public class SearchActivity extends AppCompatActivity {
             }
 
         });
+        if (cityLocation.isEmpty() && city.isEmpty()) {
+            Log.d("search", "not null" + cityLocation + ", " + city);;
 
-        imageBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.putExtra("data", "hanoi");
-                setResult(810, intent);
-                finish();
-            }
-        });
+            imageBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(SearchActivity.this,MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+        else {
+            Log.d("search", "null");
+            imageBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.putExtra("data", "hanoi");
+                    setResult(810, intent);
+                    finish();
+                }
+            });
+        }
     }
 
 
