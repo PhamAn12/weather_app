@@ -122,7 +122,7 @@ public class WaitingScreenActivity extends AppCompatActivity {
             public void run()
             {
                 try {
-                    sleep(10000);
+                    sleep(3000);
                 } catch (Exception e) {
                     Log.d("waiting", "err: " + e.toString());
                 }
