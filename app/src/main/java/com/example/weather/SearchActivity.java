@@ -31,6 +31,8 @@ public class SearchActivity extends AppCompatActivity {
     EditText editTextView;
     TextView txtLocation;
     ListView listView;
+    String tempUnit = "°C";
+    String windUnit = "m/s";
     ImageView imageBack;
     String cityLocation = "";
     String city = "";
@@ -44,6 +46,10 @@ public class SearchActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listviewSearch);
         imageBack = (ImageView) findViewById(R.id.imageBack);
         Intent intent = getIntent();
+        if(intent.getStringExtra("tempUnit") !=null) {
+            tempUnit = intent.getStringExtra("tempUnit");
+            windUnit = intent.getStringExtra("windUnit");
+        }
         if(intent.getStringExtra("cityLocation") !=null) {
             Log.d("search", intent.getStringExtra("cityLocation"));
             if (!intent.getStringExtra("cityLocation").isEmpty()) {
@@ -55,6 +61,8 @@ public class SearchActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(SearchActivity.this,MainActivity.class);
                         intent.putExtra("city",cityLocation);
+                        intent.putExtra("tempUnit",tempUnit);
+                        intent.putExtra("windUnit",windUnit);
                         startActivity(intent);
 
                         Bundle bundle = new Bundle();
@@ -169,6 +177,8 @@ public class SearchActivity extends AppCompatActivity {
                 Intent intent = new Intent(SearchActivity.this,MainActivity.class);
                 intent.putExtra("cityName",data);
                 intent.putExtra("city",cityLocation);
+                intent.putExtra("tempUnit",tempUnit);
+                intent.putExtra("windUnit",windUnit);
                 startActivity(intent);
 
                 Bundle bundle = new Bundle();
