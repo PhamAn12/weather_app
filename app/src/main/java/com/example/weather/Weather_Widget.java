@@ -73,10 +73,6 @@ public class Weather_Widget extends AppWidgetProvider {
         String des = Paper.book().read("des");
         Log.d("temp","maa " + temp);
         String tempurature = temp + "°C";
-        String icon = Paper.book().read("icon");
-        Log.d("icon","nhu cuc " + icon);
-        String link = "http://openweathermap.org/img/w/" + icon + ".png";
-
 
         String status = Paper.book().read("status").toString();
         views.setTextViewText(R.id.txt_temperature,tempurature);

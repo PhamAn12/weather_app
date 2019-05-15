@@ -202,6 +202,9 @@ public class Today extends Fragment {
 
                             JSONObject jsonObject1Wind = jsonObject.getJSONObject("wind");
                             String gio = jsonObject1Wind.getString("speed");
+//                            JSONObject jsonObject1City = jsonObject.getJSONObject("name");
+//                            String city = jsonObject1City.getString("city");
+//                            Log.d("city","ngon day"+ city);
                             if(windUnit.equals("m/s")) {
                                 txtWind.setText("Wind : "+ gio + " m/s");
                             }
@@ -217,8 +220,9 @@ public class Today extends Fragment {
 
                             Paper.book().write("temp",nhietdo);
                             Paper.book().write("status",status);
-                            Paper.book().write("icon",icon);
+//                            Paper.book().write("city",city);
                             Paper.book().write("des",des);
+
 
                         } catch (JSONException e) {
                             e.printStackTrace();

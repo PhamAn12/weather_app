@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
     public void CallNotification( ){
 //
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 1000 * 60 * 60;
+        int interval = 1000 * 60 * 1;
 //
         /* Set the alarm to start at 10:30 AM */
         Calendar calendar = Calendar.getInstance();
