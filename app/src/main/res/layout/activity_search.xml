@@ -2,7 +2,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:textColor="@color/common"
-    android:background="@drawable/light_blue">
+    android:background="@drawable/green">
     <ImageView
         android:id="@+id/imageBack"
         android:layout_width="40dp"
