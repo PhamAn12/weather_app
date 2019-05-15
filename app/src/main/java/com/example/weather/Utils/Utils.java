@@ -23,6 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,150 +32,18 @@ import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
-public class Utils extends AppCompatActivity{
-////    public void GetCurrentWeatherData(final String data, final Context context,final WeatherToday weatherToday) {
-//    //    final WeatherToday weatherToday;
-//        final String[] props = new String[4];
-//        ArrayList arrayList = new ArrayList();
-//        RequestQueue requestQueue = Volley.newRequestQueue(context);
-//        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + data + "&units=metric&appid=b195255676fe196e397398381ac43e10";
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        try {
-//                        //    WeatherToday weatherToday = null;
-//                            JSONObject jsonObject = new JSONObject(response);
-//                            Log.d("RESPONSE API", response);
-//
-//                            String day = jsonObject.getString("dt");
-//                            Log.d("day",jsonObject.getString("name"));
-//                            props[0] = jsonObject.getString("name");
-////                            txtName.setText(name);
-//                            Log.d("dady",props[0] + " ");
-//                            weatherToday.setDay(props[0]);
-//                            long l = Long.valueOf(day);
-//                            Date date = new Date(l * 1000L);
-//                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE yyyy-MM-dd HH-mm-ss");
-//                            String currentDay = simpleDateFormat.format(date);
-//
-//                            JSONArray jsonArrayWeather = jsonObject.getJSONArray("weather");
-//                            JSONObject jsonObject1Weather = jsonArrayWeather.getJSONObject(0);
-//                            props[1] = jsonObject1Weather.getString("main");
-//                            String icon = jsonObject1Weather.getString("icon");
-//                            //   Picasso.with(context).load("http://openweathermap.org/img/w/" + icon + ".png").into(imgIcon);
-//                        //    txtState.setText(status);
-//
-//                            JSONObject jsonObject1Main = jsonObject.getJSONObject("main");
-//                            String nhietdo = jsonObject1Main.getString("temp");
-//                            String doam = jsonObject1Main.getString("humidity");
-//                            Double a = Double.valueOf(nhietdo);
-//                            props[2] = String.valueOf(a.intValue());
-//                            props[3] = doam;
-//                            weatherToday.setStatus(props[2]);
-//                            weatherToday.setMinTemp(props[3]);
-//                            JSONObject jsonObject1Wind = jsonObject.getJSONObject("wind");
-//                            String gio = jsonObject1Wind.getString("speed");
-//                        //    txtWind.setText(gio + "m/s");
-//
-//                            JSONObject jsonObject1Clouds = jsonObject.getJSONObject("clouds");
-//                            String may = jsonObject1Clouds.getString("all");
-//                        //    txtCloud.setText(may + "%");
-//
-//                            JSONObject jsonObject1Sys = jsonObject.getJSONObject("sys");
-//                            String country = jsonObject1Sys.getString("country");
-//                         //   txtCountry.setText(country);
-//                            Log.d("end", "final" + weatherToday.getMaxTemp());
-//
-//
-//                        } catch (JSONException e) {
-//                            Log.d("end", "fdiddal");
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
-//                        Log.d("end", "fiddal" + error.toString());
-//                    }
-//                });
-//        requestQueue.add(stringRequest);
-//
-//
-//    }
-    private String myString = "hello";
-    TextView today;
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.today);
-        today = (TextView) findViewById(R.id.doam);
-        today.setText("anfdfsd,f");
+public class Utils {
+    public static double convertToF(double tempC) {
+        return (tempC*9/5)+32;
     }
-    public String getMyData() {
-        return myString;
+    public static double convertToKmh(double mh) {
+        return round(mh*3.6, 2);
     }
-    public void GetCurrentWeatherData(final String data) {
-        RequestQueue requestQueue = Volley.newRequestQueue(Utils.this);
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + data + "&units=metric&appid=b195255676fe196e397398381ac43e10";
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(response);
-                            Log.d("RESPONSE API", response);
+    private static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
 
-                            String day = jsonObject.getString("dt");
-                            String name = jsonObject.getString("name");
-                            //tvDay.setText(name);
-                            Log.d("na", "onResponse: " + name);
-                            long l = Long.valueOf(day);
-                            Date date = new Date(l * 1000L);
-                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE yyyy-MM-dd HH-mm-ss");
-                            String Day = simpleDateFormat.format(date);
-                        //    txtDay.setText(Day);
-
-                            JSONArray jsonArrayWeather = jsonObject.getJSONArray("weather");
-                            JSONObject jsonObject1Weather = jsonArrayWeather.getJSONObject(0);
-                            String status = jsonObject1Weather.getString("main");
-                            String icon = jsonObject1Weather.getString("icon");
-                        //    Picasso.with(Utils.this).load("http://openweathermap.org/img/w/" + icon + ".png").into(imgIcon);
-                        //    txtState.setText(status);
-
-                            JSONObject jsonObject1Main = jsonObject.getJSONObject("main");
-                            String nhietdo = jsonObject1Main.getString("temp");
-                            String doam = jsonObject1Main.getString("humidity");
-                            Double a = Double.valueOf(nhietdo);
-                            String Nhietdo = String.valueOf(a.intValue());
-                         //   txtTemp.setText(Nhietdo + "°C");
-                         //   txtHumidity.setText(doam + "%");
-
-                            JSONObject jsonObject1Wind = jsonObject.getJSONObject("wind");
-                            String gio = jsonObject1Wind.getString("speed");
-                         //   txtWind.setText(gio + "m/s");
-
-                            JSONObject jsonObject1Clouds = jsonObject.getJSONObject("clouds");
-                            String may = jsonObject1Clouds.getString("all");
-                        //    txtCloud.setText(may + "%");
-
-                            JSONObject jsonObject1Sys = jsonObject.getJSONObject("sys");
-                            String country = jsonObject1Sys.getString("country");
-                        //    txtCountry.setText(country);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(Utils.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                });
-        requestQueue.add(stringRequest);
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

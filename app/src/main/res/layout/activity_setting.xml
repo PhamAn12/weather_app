@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/light_green"
+    android:orientation="vertical">
+
+   <RelativeLayout
+        android:layout_width="match_parent"
+        android:textColor="@color/common"
+        android:layout_height="wrap_content">
+
+       <ImageView
+           android:id="@+id/imageBackSetting"
+           android:layout_width="50dp"
+           android:layout_height="50dp"
+           android:layout_margin="15dp"
+           app:srcCompat="@drawable/back" />
+
+
+       <TextView
+           android:textColor="@color/common"
+           android:id="@+id/textView"
+           android:layout_width="wrap_content"
+           android:layout_height="50dp"
+           android:layout_alignParentEnd="true"
+           android:layout_alignParentRight="true"
+           android:layout_marginLeft="10dp"
+           android:layout_marginTop="10dp"
+           android:layout_marginEnd="10dp"
+           android:layout_centerVertical="true"
+           android:layout_marginRight="10dp"
+           android:layout_marginBottom="10dp"
+           android:layout_toEndOf="@+id/imageBackSetting"
+           android:layout_toRightOf="@+id/imageBackSetting"
+           android:text="Setting"
+           android:textSize="30sp"
+           android:gravity="center_vertical"
+           tools:text="Setting" />
+
+   </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_temp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="Temperature"
+            android:textColor="@color/common"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/txt_temp_unit"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2"
+            android:text="@string/txt_temp_unit"
+            android:textColor="@color/common"
+            android:textSize="25sp"
+            android:gravity="center_vertical"
+            tools:text="C" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_wind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:text="Wind"
+            android:textColor="@color/common"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/txt_wind_unit"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2"
+            android:text="m/s"
+            android:textColor="@color/common"
+            android:textSize="25sp"
+            tools:text="m/s" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        >
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Contact us: 0904728958"
+            android:textColor="@color/common"
+            android:textSize="25sp"
+            />
+    </LinearLayout>
+</LinearLayout>

@@ -144,20 +144,23 @@ public class WaitingScreenActivity extends AppCompatActivity {
         return city;
     }
     public void switchScreen() {
-        Intent intent = new Intent(WaitingScreenActivity.this,MainActivity.class);
         String city = "";
         if(sucess == true) {
             try {
+                Intent intent = new Intent(WaitingScreenActivity.this,MainActivity.class);
                 city = getCity(this, wayLatitude, wayLongitude);
                 intent.putExtra("city",city);
+                startActivity(intent);
             } catch (Exception e) {
                 Log.d("waiting", "err get city: " + e.toString());
                 e.printStackTrace();
             }
         }
-        Log.d("waiting", "city in sw: " + city);
-
-        startActivity(intent);
+        else {
+            Intent intent = new Intent(WaitingScreenActivity.this,SearchActivity.class);
+            Log.d("waiting", "city in sw: " + city);
+            startActivity(intent);
+        }
     }
     private void getLocation() {
         if (ActivityCompat.checkSelfPermission(WaitingScreenActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
