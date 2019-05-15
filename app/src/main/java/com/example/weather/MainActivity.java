@@ -76,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                 intent.putExtra("tempUnit",tempUnit);
-                intent.putExtra("city", dataCity);
+                intent.putExtra("cityName", dataCity);
+                intent.putExtra("city", cityLocation);
                 intent.putExtra("windUnit",windUnit);
                 startActivityForResult(intent, 810);
             }
