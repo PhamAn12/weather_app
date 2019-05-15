@@ -4,7 +4,7 @@
     android:initialLayout="@layout/weather__widget"
     android:minWidth="40dp"
     android:minHeight="40dp"
-    android:previewImage="@drawable/sun"
+    android:previewImage="@drawable/broken_clouds"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen"></appwidget-provider>
