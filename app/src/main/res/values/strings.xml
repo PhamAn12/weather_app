@@ -7,12 +7,19 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="today">today</string>
+    <string name="menu">menu</string>
+
     <string name="txt_max_temp">txt_max_temp</string>
     <string name="txt_min_temp">txt_min_temp</string>
     <string name="day">txt_day</string>
     <string name="status">txt_status</string>
     <string name="txtCity_Week">City</string>
     <string name="txt_appbar_city">City</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
+
+    <string name="layout_temp">layout_temp</string>
+    <string name="layout_wind">layout_wind</string>
+    <string name="txt_temp_unit">°C</string>
+    <string name="imageBackSetting">Back</string>
+    <string name="txt_wind_unit">txt_wind_unit</string>
+    <string name="txt_city_location">txt_city_location</string>
 </resources>

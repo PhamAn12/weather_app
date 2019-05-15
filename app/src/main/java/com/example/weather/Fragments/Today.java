@@ -60,6 +60,8 @@ public class Today extends Fragment {
     List<String> axisData = new ArrayList<>();
     List<String>yAxisData = new ArrayList<>();
     ImageView imageView;
+    String tempUnit = "m/s";
+    String windUnit = "°C";
 //    LineChartView lineChartView;
 //    String[] axisData = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept",
 //            "Oct", "Nov", "Dec"};
@@ -77,6 +79,15 @@ public class Today extends Fragment {
                 String country = bundle.getString("dn");
                 Log.d("ok", "onCreateView: " + city);
                 Log.d("ĐN", "onCreateView: " + country);
+            }
+            if ( bundle.getString("tempUnit") != null && bundle.getString("tempUnit") != "") {
+                tempUnit = bundle.getString("tempUnit");
+                Log.d("today", "temp: " + tempUnit);
+            }
+            if ( bundle.getString("windUnit") != null && bundle.getString("windUnit") != "") {
+                windUnit = bundle.getString("windUnit");
+                Log.d("today", "windUnit: " + windUnit);
+
             }
         }
         Log.d("okdccc", "onCreateView: " + city);
@@ -173,6 +184,11 @@ public class Today extends Fragment {
                             String doam = jsonObject1Main.getString("humidity");
                             Double a = Double.valueOf(nhietdo);
                             String Nhietdo = String.valueOf(a.intValue());
+                            if(tempUnit.equals("°F") ) {
+                                Log.d("today", "temp: " + "true");
+                                a = Utils.convertToF(Double.valueOf(nhietdo));
+                                Nhietdo = String.valueOf(a.intValue());
+                            }
                             txtTemp.setText(Nhietdo);
                             textDoam.setText("Humidity: " + doam + "%");
 
@@ -186,7 +202,14 @@ public class Today extends Fragment {
 
                             JSONObject jsonObject1Wind = jsonObject.getJSONObject("wind");
                             String gio = jsonObject1Wind.getString("speed");
-                            txtWind.setText("Wind : "+ gio + " m/s");
+                            if(windUnit.equals("m/s")) {
+                                txtWind.setText("Wind : "+ gio + " m/s");
+                            }
+                            else {
+                                double win = Utils.convertToKmh(Double.valueOf(gio));
+                                Log.d("main", "win: " + win);
+                                txtWind.setText("Wind : "+ String.valueOf(win) + " km/h");
+                            }
 
                             JSONObject jsonObject1Clouds = jsonObject.getJSONObject("clouds");
                             String may = jsonObject1Clouds.getString("all");

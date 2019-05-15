@@ -3,6 +3,7 @@ package com.example.weather.Fragments;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.weather.Adapter.WeekAdapter;
 import com.example.weather.Object.WeatherToday;
 import com.example.weather.R;
+import com.example.weather.Utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -37,12 +39,16 @@ public class SevenDays extends Fragment {
     ImageView imageBack;
     TextView txtName;
     ListView lv;
+    String tempUnit = "°C";
+    String windUnit = "m/s";
     WeekAdapter customAdapter;
     ArrayList<WeatherToday> mangthoitiet;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         String city = "Hanoi";
+        CoordinatorLayout coordinatorLayout = (CoordinatorLayout)getActivity().findViewById(R.id.main_content);
+//        coordinatorLayout.setBackgroundResource(R.drawable.pink);
         Bundle bundle = this.getArguments();
         if(bundle != null) {
             if ( bundle.getString("dataC") != null && bundle.getString("dataC") != "") {
@@ -50,6 +56,12 @@ public class SevenDays extends Fragment {
                 String country = bundle.getString("dn");
                 Log.d("okCity", "onCreateView: " + city);
                 Log.d("ĐNN", "onCreateView: " + country);
+            }
+            if ( bundle.getString("tempUnit") != null && bundle.getString("tempUnit") != "") {
+                tempUnit = bundle.getString("tempUnit");
+            }
+            if ( bundle.getString("windUnit") != null && bundle.getString("windUnit") != "") {
+                windUnit = bundle.getString("windUnit");
             }
 
         }
@@ -101,9 +113,14 @@ public class SevenDays extends Fragment {
 
                                 Double a = Double.valueOf(tempMin);
                                 Double b = Double.valueOf(tempMax);
-                                String NhietdoMin = String.valueOf(a.intValue());
-                                String NhietdoMax = String.valueOf(b.intValue());
-
+                                String NhietdoMin = String.valueOf(a.intValue() + tempUnit);
+                                String NhietdoMax = String.valueOf(b.intValue()) + tempUnit;
+                                if(tempUnit.equals("°F") ) {
+                                    a = Utils.convertToF(Double.valueOf(tempMin));
+                                    NhietdoMin = String.valueOf(a.intValue()) + tempUnit;
+                                    b = Utils.convertToF(Double.valueOf(tempMax));
+                                    NhietdoMax = String.valueOf(b.intValue()) + tempUnit;
+                                }
                                 JSONArray jsonArrayWeather = jsonObjectList.getJSONArray("weather");
                                 JSONObject jsonObjectWeather = jsonArrayWeather.getJSONObject(0);
                                 String status = jsonObjectWeather.getString("description");

@@ -59,9 +59,14 @@ public class MainActivity extends AppCompatActivity {
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     ImageView imageSearch;
+    ImageView imageMenu;
     TextView textViewCity ;
     Button button;
+    String cityLocation = "";
+    String dataCity = "Ha Noi";
     private String country;
+    String tempUnit = "°C";
+    String windUnit = "m/s";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,15 +84,30 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
         imageSearch = (ImageView) findViewById(R.id.search);
+        imageMenu = (ImageView) findViewById(R.id.menu);
+        imageMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MenuActivity.class);
+                intent.putExtra("tempUnit",tempUnit);
+                intent.putExtra("cityName", dataCity);
+                intent.putExtra("city", cityLocation);
+                intent.putExtra("windUnit",windUnit);
+                startActivityForResult(intent, 810);
+            }
+        });
         imageSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                intent.putExtra("cityLocation",cityLocation);
+                intent.putExtra("tempUnit",tempUnit);
+                intent.putExtra("windUnit",windUnit);
+                intent.putExtra("city",dataCity);
                 startActivityForResult(intent, 810);
             }
         });
 
-        String dataCity = "Ha Noi";
 
 
         textViewCity = (TextView) findViewById(R.id.txt_appbar_city);
@@ -98,10 +118,22 @@ public class MainActivity extends AppCompatActivity {
             GetCurrentWeatherData("Hanoi");
         }
 
-//
         Intent intent = getIntent();
+        if(intent.getStringExtra("city") != "" && intent.getStringExtra("city") !=null) {
+            cityLocation = intent.getStringExtra("city");
+            Log.d("main", "city from gps: " + intent.getStringExtra("city"));
+            dataCity = intent.getStringExtra("city");
+        }
         if(intent.getStringExtra("cityName") != "" && intent.getStringExtra("cityName") !=null) {
             dataCity = intent.getStringExtra("cityName");
+        }
+        if(intent.getStringExtra("tempUnit") != "" && intent.getStringExtra("tempUnit") !=null) {
+            tempUnit = intent.getStringExtra("tempUnit");
+            Log.d("main", "temp:" + tempUnit);
+        }
+        if(intent.getStringExtra("windUnit") != "" && intent.getStringExtra("windUnit") !=null) {
+            windUnit = intent.getStringExtra("windUnit");
+            Log.d("main", "wind:" + windUnit);
         }
         Log.d("main", "city: " + dataCity);
 
@@ -225,6 +257,8 @@ public class MainActivity extends AppCompatActivity {
                     bundle.putString("dataC",textViewCity.getText().toString());
                     Log.d("adap", "getItem: " + country);
                     bundle.putString("dn",country);
+                    bundle.putString("tempUnit",tempUnit);
+                    bundle.putString("windUnit",windUnit);
                     today.setArguments(bundle);
                     return today;
                 case 1:
@@ -233,6 +267,8 @@ public class MainActivity extends AppCompatActivity {
                     bundleTomrrow.putString("dataC",textViewCity.getText().toString());
                     Log.d("adapTomorrow", "getItem: " + country);
                     bundleTomrrow.putString("dn",country);
+                    bundleTomrrow.putString("tempUnit",tempUnit);
+                    bundleTomrrow.putString("windUnit",windUnit);
                     tomorrow.setArguments(bundleTomrrow);
                     return tomorrow;
                 case 2:
@@ -241,6 +277,8 @@ public class MainActivity extends AppCompatActivity {
                     bundleSevenDays.putString("dataC",textViewCity.getText().toString());
                     Log.d("sevendatddd", "getItem: " + country);
                     bundleSevenDays.putString("dn",country);
+                    bundleSevenDays.putString("tempUnit",tempUnit);
+                    bundleSevenDays.putString("windUnit",windUnit);
                     sevenDays.setArguments(bundleSevenDays);
                     return sevenDays;
                 default:
