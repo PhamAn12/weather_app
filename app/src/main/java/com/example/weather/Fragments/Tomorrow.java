@@ -27,6 +27,7 @@ import com.example.weather.Object.Thoitiet24h;
 import com.example.weather.Object.Tomorrow24h;
 import com.example.weather.Object.WeatherToday;
 import com.example.weather.R;
+import com.example.weather.Utils.Utils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -50,11 +51,14 @@ import java.util.List;
 
 public class Tomorrow extends Fragment {
     ArrayList<WeatherToday> mangthoitiet = new ArrayList<>();
-    TextView tomorrowDay , txtStatus ,txtDoam, txtWind,txtTempDayTomorrow,txtTempNightTomorrow;
+    TextView tomorrowDay , txtStatus ,txtDoam, txtWind,txtTempDayTomorrow,txtTempNightTomorrow,txtWindTitleTomorrow;
     ImageView imageView;
     RecyclerView24hTomorrowAdapter recyclerView24hTomorrowAdapter;
     RecyclerView recyclerView24hTomorrow;
     BarChart barChart;
+
+    String tempUnit = "m/s";
+    String windUnit = "°C";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,6 +72,7 @@ public class Tomorrow extends Fragment {
         txtTempDayTomorrow = (TextView) view.findViewById(R.id.txtTempDayTomorrow);
         txtTempNightTomorrow = (TextView) view.findViewById(R.id.txtTempNightTomorrow);
         recyclerView24hTomorrow = (RecyclerView) view.findViewById(R.id.recycler24hTomorrow);
+        txtWindTitleTomorrow = (TextView) view.findViewById(R.id.txtWindTitleTomorrow);
         barChart = (BarChart) view.findViewById(R.id.barChart);
         String city = "Hanoi";
         Log.d("oid", "onCreateView: " );
@@ -79,6 +84,15 @@ public class Tomorrow extends Fragment {
                 String country = bundle.getString("dn");
                 Log.d("ok", "onCreateView: " + city);
                 Log.d("ĐN", "onCreateView: " + country);
+            }
+            if ( bundle.getString("tempUnit") != null && bundle.getString("tempUnit") != "") {
+                tempUnit = bundle.getString("tempUnit");
+                Log.d("today", "temp: " + tempUnit);
+            }
+            if ( bundle.getString("windUnit") != null && bundle.getString("windUnit") != "") {
+                windUnit = bundle.getString("windUnit");
+                Log.d("today", "windUnit: " + windUnit);
+
             }
         }
 
@@ -131,9 +145,26 @@ public class Tomorrow extends Fragment {
                                 JSONObject jsonObjectMain = jsonObjectList.getJSONObject("temp");
                                 String tempDay = jsonObjectMain.getString("day");
                                 String tempNight = jsonObjectMain.getString("night");
-                                txtTempDayTomorrow.setText("Day : " + tempDay + "°C ↑");
-                                txtTempNightTomorrow.setText("Night : " + tempNight + "°C ↓");
-
+//                                txtTempDayTomorrow.setText("Day : " + tempDay + "°C ↑");
+//                                txtTempNightTomorrow.setText("Night : " + tempNight + "°C ↓");
+                                Double a = Double.valueOf(tempDay);
+                                Double b = Double.valueOf(tempNight);
+                                String TempDay = String.valueOf(a.intValue());
+                                String TempNight = String.valueOf(b.intValue());
+                                if(tempUnit.equals("°F") ) {
+                                    Log.d("today", "temp: " + "true");
+                                    a = Utils.convertToF(Double.valueOf(tempDay));
+                                    TempDay = String.valueOf(a.intValue());
+                                    txtTempDayTomorrow.setText("Day : " + TempDay + " °F ↑");
+                                    Log.d("today", "temp: " + "true");
+                                    b = Utils.convertToF(Double.valueOf(TempNight));
+                                    TempNight = String.valueOf(b.intValue());
+                                    txtTempNightTomorrow.setText("Night : " + TempNight + " °F ↓");
+                                }
+                                else {
+                                    txtTempDayTomorrow.setText("Day : " + TempDay + " °C ↑");
+                                    txtTempNightTomorrow.setText("Night : " + TempNight + " °C ↓");
+                                }
 
 
                                 JSONArray jsonArrayWeather = jsonObjectList.getJSONArray("weather");
@@ -207,7 +238,11 @@ public class Tomorrow extends Fragment {
                                     Double a = Double.valueOf(temp);
 
                                     String temp24h = String.valueOf(a.intValue());
-
+                                    if(tempUnit.equals("°F") ) {
+                                        Log.d("today", "temp: " + "true");
+                                        a = Utils.convertToF(Double.valueOf(temp));
+                                        temp24h = String.valueOf(a.intValue());
+                                    }
                                     JSONArray jsonArrayWeather = jsonObjectList.getJSONArray("weather");
                                     JSONObject jsonObjectWeather = jsonArrayWeather.getJSONObject(0);
                                     String icon24h = jsonObjectWeather.getString("icon");
@@ -217,14 +252,32 @@ public class Tomorrow extends Fragment {
 
                                     JSONObject jsonObjectWind = jsonObjectList.getJSONObject("wind");
                                     String speed = jsonObjectWind.getString("speed");
-                                    speedInChart.add(Float.parseFloat(speed));
+                                    if(windUnit.equals("m/s")) {
+                                        txtWindTitleTomorrow.setText("Wind speed (m/s)");
+                                        speedInChart.add(Float.parseFloat(speed));
+                                    }
+                                    else {
+                                        double win = Utils.convertToKmh(Double.valueOf(speed));
+                                        Log.d("main", "win: " + win);
+                                        txtWindTitleTomorrow.setText("Wind speed (km/s)");
+                                        speedInChart.add((float) win);
+                                    }
+
                                 }
                             }
                             JSONObject jsonObjectList = jsonArrayList.getJSONObject(3);
                             JSONObject jsonObjectMain = jsonObjectList.getJSONObject("main");
                             String humidity = jsonObjectMain.getString("humidity");
                             txtDoam.setText("Humidity : " + humidity + "%");
-                            txtWind.setText("Wind : " + Float.toString(speedInChart.get(3)) + "m/s");
+                            //txtWind.setText("Wind : " + Float.toString(speedInChart.get(3)) + "m/s");
+                            if(windUnit.equals("m/s")) {
+                                txtWind.setText("Wind : " + Float.toString(speedInChart.get(3)) + "m/s");
+                            }
+                            else {
+                                double win = Utils.convertToKmh(Double.valueOf(Float.toString(speedInChart.get(3))));
+                                Log.d("main", "win: " + win);
+                                txtWind.setText("Wind : " + Float.toString(speedInChart.get(3)) + "km/s");
+                            }
                             String [] hIC = hourInChart.toArray(new String[hourInChart.size()]);
                             Log.d("hic", "onResponse: " + hIC[7]);
                             drawChart2(barChart,hIC,speedInChart);

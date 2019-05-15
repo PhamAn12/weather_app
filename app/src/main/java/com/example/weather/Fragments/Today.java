@@ -65,7 +65,7 @@ import lecho.lib.hellocharts.view.LineChartView;
 import static android.content.ContentValues.TAG;
 
 public class Today extends Fragment {
-    TextView textViewDay , textDoam, txtTemp, txtWind, txtUvIndex, txtStatus,txtTempDay,txtTempNight;
+    TextView textViewDay , textDoam, txtTemp, txtWind, txtUvIndex, txtStatus,txtTempDay,txtTempNight,txtWindTitle;
     SunriseSunsetView mSunriseSunsetView;
     BarChart barChart;
     RecyclerView recyclerView24h;
@@ -120,6 +120,7 @@ public class Today extends Fragment {
         txtStatus = (TextView) view.findViewById(R.id.txtStatus);
         txtTempDay = (TextView) view.findViewById(R.id.txtTempDay);
         txtTempNight = (TextView) view.findViewById(R.id.txtTempNight);
+        txtWindTitle = (TextView) view.findViewById(R.id.txtWindTitle);
         recycler24hAdapter = new RecyclerView24hAdapter(getActivity().getApplicationContext(), new ArrayList<Thoitiet24h>());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView24h.setLayoutManager(layoutManager);
@@ -167,6 +168,7 @@ public class Today extends Fragment {
                             Picasso.with(getActivity().getApplicationContext()).load("http://openweathermap.org/img/w/" + icon + ".png").into(imageView);
                             //    txtState.setText(status);
                             Log.d("status", "onResponse: " + status);
+                            txtStatus.setText(status);
                             JSONObject jsonObject1Main = jsonObject.getJSONObject("main");
                             String nhietdo = jsonObject1Main.getString("temp");
                             String doam = jsonObject1Main.getString("humidity");
@@ -178,7 +180,7 @@ public class Today extends Fragment {
                                 a = Utils.convertToF(Double.valueOf(nhietdo));
                                 Nhietdo = String.valueOf(a.intValue());
                             }
-                            txtTemp.setText(Nhietdo);
+                            txtTemp.setText(Nhietdo + "°");
                             textDoam.setText("Humidity: " + doam + "%");
                             //    txtHumidity.setText(doam + "%");
 //                            int nd = Integer.parseInt(Nhietdo);
@@ -267,8 +269,33 @@ public class Today extends Fragment {
                             JSONObject jsonObjectMain = jsonObjectList.getJSONObject("temp");
                             String tempDay = jsonObjectMain.getString("day");
                             String tempNight = jsonObjectMain.getString("night");
-                            txtTempDay.setText("Day : " + tempDay + " °C ↑");
-                            txtTempNight.setText("Night : " + tempNight + " °C ↓");
+                            Double a = Double.valueOf(tempDay);
+                            Double b = Double.valueOf(tempNight);
+                            String TempDay = String.valueOf(a.intValue());
+                            String TempNight = String.valueOf(b.intValue());
+                            if(tempUnit.equals("°F") ) {
+                                Log.d("today", "temp: " + "true");
+                                a = Utils.convertToF(Double.valueOf(tempDay));
+                                TempDay = String.valueOf(a.intValue());
+                                txtTempDay.setText("Day : " + TempDay + " °F ↑");
+                                Log.d("today", "temp: " + "true");
+                                b = Utils.convertToF(Double.valueOf(TempNight));
+                                TempNight = String.valueOf(b.intValue());
+                                txtTempNight.setText("Night : " + TempNight + " °F ↓");
+                            }
+                            else {
+                                txtTempDay.setText("Day : " + TempDay + " °C ↑");
+                                txtTempNight.setText("Night : " + TempNight + " °C ↓");
+                            }
+
+//                            if(tempUnit.equals("°F") ) {
+//                                Log.d("today", "temp: " + "true");
+//                                b = Utils.convertToF(Double.valueOf(TempNight));
+//                                TempNight = String.valueOf(b.intValue());
+//                                txtTempDay.setText("Night : " + TempNight + " °F ↓");
+//                            }
+//                            else
+//                                txtTempNight.setText("Night : " + TempNight + " °C ↓");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -312,6 +339,7 @@ public class Today extends Fragment {
                                 Date date = new Date(l * 1000L);
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
                                 String Time24h = simpleDateFormat.format(date);
+
                                 Log.d("TIme", "onResponse: " + Time24h);
                                 SimpleDateFormat hourDateFormat = new SimpleDateFormat("HH");
                                 //String hour = simpleDateFormat.format(date).substring(0,2);
@@ -325,7 +353,11 @@ public class Today extends Fragment {
                                 Double a = Double.valueOf(temp);
 
                                 String Nhietdo24h = String.valueOf(a.intValue());
-
+                                if(tempUnit.equals("°F") ) {
+                                    Log.d("today", "temp: " + "true");
+                                    a = Utils.convertToF(Double.valueOf(temp));
+                                    Nhietdo24h = String.valueOf(a.intValue());
+                                }
                                 JSONArray jsonArrayWeather = jsonObjectList.getJSONArray("weather");
                                 JSONObject jsonObjectWeather = jsonArrayWeather.getJSONObject(0);
                                 String icon = jsonObjectWeather.getString("icon");
@@ -334,9 +366,18 @@ public class Today extends Fragment {
                                 JSONObject jsonObjectWind = jsonObjectList.getJSONObject("wind");
                                 String speed = jsonObjectWind.getString("speed");
                                 Log.d("speed", "onResponse: " + speed);
+                                if(windUnit.equals("m/s")) {
+                                    txtWindTitle.setText("Wind speed (m/s)");
+                                    speedInChart.add(Float.parseFloat(speed));
+                                }
+                                else {
+                                    double win = Utils.convertToKmh(Double.valueOf(speed));
+                                    Log.d("main", "win: " + win);
+                                    txtWindTitle.setText("Wind speed (km/h)");
+                                    speedInChart.add((float) win);
+                                }
 
 
-                                speedInChart.add(Float.parseFloat(speed));
                                 tempList.add(new Thoitiet24h(Time24h, icon, Nhietdo24h));
                             }
                             //drawChart(barChart,hourInChart,speedInChart);
