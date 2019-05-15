@@ -40,7 +40,7 @@ import com.example.weather.Fragments.Tomorrow;
 import com.example.weather.Notification.NotificationReceiver;
 import com.example.weather.Object.WeatherToday;
 import com.example.weather.Utils.Utils;
-import com.github.mikephil.charting.charts.CombinedChart;
+//import com.github.mikephil.charting.charts.CombinedChart;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -51,7 +51,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import io.paperdb.Paper;
+//import io.paperdb.Paper;
 
 
 public class MainActivity extends AppCompatActivity {

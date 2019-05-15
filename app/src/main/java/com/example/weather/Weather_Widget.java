@@ -86,14 +86,33 @@ public class Weather_Widget extends AppWidgetProvider {
 //        switch(des){
 //            case: ""
 //        }
-        if(status.equals("Clouds")){
-            Log.d("icon","nhu lin giong " + status);
-            views.setImageViewResource(R.id.img_widget,R.drawable.clouds);
+        if(des.equals("clear sky")){
+            views.setImageViewResource(R.id.img_widget,R.drawable.clear_sky);
         }
-//        else if(status.equals("")){
-//            views.setImageViewResource(R.id.img_widget,R.drawable.rain);
-//        }
-        Picasso.with(context).load(link).into(img_widget);
+        else if(des.equals("few clouds")){
+            views.setImageViewResource(R.id.img_widget,R.drawable.few_clouds);
+        }
+        else if(des.equals("scattered clouds")){
+            views.setImageViewResource(R.id.img_widget,R.drawable.scattered_clouds);
+        }
+        else if(des.equals("broken clouds")){
+            views.setImageViewResource(R.id.img_widget,R.drawable.broken_clouds);
+        }
+        else if(des.equals("shower rain")){
+            views.setImageViewResource(R.id.img_widget,R.drawable.shower_rain);
+        }
+        else if(des.equals("rain")){
+            views.setImageViewResource(R.id.img_widget,R.drawable.rain);
+        }
+        else if(des.equals("thunderstorm")){
+            views.setImageViewResource(R.id.img_widget,R.drawable.thunderstorm);
+        }
+        else if(des.equals("snow")){
+            views.setImageViewResource(R.id.img_widget,R.drawable.snow);
+        }
+        else if(des.equals("mist")){
+            views.setImageViewResource(R.id.img_widget,R.drawable.mist);
+        }
         views.setOnClickPendingIntent(R.id.widget_layout,pendingIntent);
 
         // Instruct the widget manager to update the widget

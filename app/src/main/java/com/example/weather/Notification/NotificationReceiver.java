@@ -39,7 +39,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
                 context).setSmallIcon(R.drawable.clouds)
-                .setContentTitle("Weather Notification")
+                .setContentTitle("Weather ")
+                .setShowWhen(true)
                 .setContentText(temp + "       " + status).setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
                 .setContentIntent(pendingIntent)
