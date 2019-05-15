@@ -162,7 +162,7 @@ public class Today extends Fragment {
                             Log.d("RESPONSE API", response);
 
                             String day = jsonObject.getString("dt");
-                            String name = jsonObject.getString("name");
+                            String city = jsonObject.getString("name");
                             //    txtName.setText(name);
 
                             long l = Long.valueOf(day);
@@ -220,7 +220,7 @@ public class Today extends Fragment {
 
                             Paper.book().write("temp",nhietdo);
                             Paper.book().write("status",status);
-//                            Paper.book().write("city",city);
+                            Paper.book().write("city",city);
                             Paper.book().write("des",des);
 
 

@@ -24,7 +24,7 @@ public class NotificationReceiver extends BroadcastReceiver {
         Paper.init(context);
         String temp =Paper.book().read("temp")+ "°C";
         String status = Paper.book().read("status");
-//        String city = Paper.book().read("city");
+        String city = Paper.book().read("city");
         long when = System.currentTimeMillis();
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
@@ -40,7 +40,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
                 context).setSmallIcon(R.drawable.clouds)
-                .setContentTitle("Weather")
+                .setContentTitle("Weather     in " +city)
                 .setShowWhen(true)
                 .setContentText(temp + "       " + status).setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
