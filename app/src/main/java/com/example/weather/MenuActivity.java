@@ -20,6 +20,7 @@ public class MenuActivity extends AppCompatActivity {
     String tempUnit = "°C";
     String windUnit = "m/s";
     String dataCity = "Hanoi";
+    String position = "";
     ImageView imageView;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +34,12 @@ public class MenuActivity extends AppCompatActivity {
             windUnit = intent.getStringExtra("windUnit");
             Log.d("main", "wind:" + windUnit);
         }
+        if(intent.getStringExtra("cityName") != "" && intent.getStringExtra("city") !=null) {
+            dataCity = intent.getStringExtra("cityName");
+            Log.d("main", "temp:" + tempUnit);
+        }
         if(intent.getStringExtra("city") != "" && intent.getStringExtra("city") !=null) {
-            dataCity = intent.getStringExtra("city");
+            position = intent.getStringExtra("city");
             Log.d("main", "temp:" + tempUnit);
         }
         txt_temp_unit = (TextView) findViewById(R.id.txt_temp_unit);
@@ -83,6 +88,7 @@ public class MenuActivity extends AppCompatActivity {
                 intent.putExtra("tempUnit",tempUnit);
                 intent.putExtra("windUnit",windUnit);
                 intent.putExtra("cityName",dataCity);
+                intent.putExtra("city",position);
                 startActivityForResult(intent, 810);
             }
         });
