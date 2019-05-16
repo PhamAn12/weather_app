@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.weather.MainActivity;
 import com.example.weather.R;
+import com.example.weather.WaitingScreenActivity;
 
 import io.paperdb.Paper;
 
@@ -22,14 +23,15 @@ public class NotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d("noti","mess");
         Paper.init(context);
-        String temp =Paper.book().read("temp")+ "°C";
-        String status = Paper.book().read("status");
+        String temp =Paper.book().read("temp");
+        String des = Paper.book().read("des");
         String city = Paper.book().read("city");
         long when = System.currentTimeMillis();
         NotificationManager notificationManager = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.putExtra("cityName",city);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
@@ -40,9 +42,9 @@ public class NotificationReceiver extends BroadcastReceiver {
 
         NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(
                 context).setSmallIcon(R.drawable.clouds)
-                .setContentTitle("Weather     in " +city)
+                .setContentTitle("Weather in " +city)
                 .setShowWhen(true)
-                .setContentText(temp + "       " + status).setSound(alarmSound)
+                .setContentText(temp + "       " + des).setSound(alarmSound)
                 .setAutoCancel(true).setWhen(when)
                 .setContentIntent(pendingIntent)
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});

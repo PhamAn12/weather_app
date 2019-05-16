@@ -46,6 +46,7 @@ import io.paperdb.Paper;
 public class Weather_Widget extends AppWidgetProvider {
     static String CLICK_ACTION = "CLICKED";
     ImageView img_widget;
+    String city = Paper.book().read("city");
     void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
         Intent intent = new Intent(context,Weather_Widget.class);
@@ -72,10 +73,9 @@ public class Weather_Widget extends AppWidgetProvider {
         String temp = Paper.book().read("temp");
         String des = Paper.book().read("des");
         Log.d("temp","maa " + temp);
-        String tempurature = temp + "°C";
 
         String status = Paper.book().read("status").toString();
-        views.setTextViewText(R.id.txt_temperature,tempurature);
+        views.setTextViewText(R.id.txt_temperature,temp);
         views.setTextViewText(R.id.txt_status, status);
         Log.d("icon","nhu lin " + status.getClass() + " ss: " + status.compareTo("Clouds"));
 //        views.setImageViewUri(R.id.img_widget, Uri.parse(link));
@@ -121,7 +121,8 @@ public class Weather_Widget extends AppWidgetProvider {
             super.onReceive(context, intent);
             if (intent.getAction().equals(CLICK_ACTION)) {
                 intent = new Intent(Intent.ACTION_VIEW);
-                intent.setClass(context, MainActivity.class);
+                intent.putExtra("cityName",city);
+                intent.setClass(context, WaitingScreenActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
@@ -145,5 +146,6 @@ public class Weather_Widget extends AppWidgetProvider {
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
     }
+
 }
 

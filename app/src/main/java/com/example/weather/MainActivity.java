@@ -257,6 +257,7 @@ public class MainActivity extends AppCompatActivity {
                     bundle.putString("dataC",textViewCity.getText().toString());
                     Log.d("adap", "getItem: " + country);
                     bundle.putString("dn",country);
+                    bundle.putString("cityLocation",cityLocation);
                     bundle.putString("tempUnit",tempUnit);
                     bundle.putString("windUnit",windUnit);
                     today.setArguments(bundle);

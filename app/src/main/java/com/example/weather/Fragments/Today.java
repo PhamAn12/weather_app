@@ -62,6 +62,9 @@ public class Today extends Fragment {
     ImageView imageView;
     String tempUnit = "m/s";
     String windUnit = "°C";
+    String cityLocation = "";
+    String tempF;
+    String city = "Hanoi";
 //    LineChartView lineChartView;
 //    String[] axisData = {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept",
 //            "Oct", "Nov", "Dec"};
@@ -69,13 +72,14 @@ public class Today extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        String city = "Hanoi";
+
         Log.d("oid", "onCreateView: " );
         Bundle bundle = this.getArguments();
     //    Nhận argument từ main activity
         if(bundle != null) {
             if ( bundle.getString("dataC") != null && bundle.getString("dataC") != "") {
                 city = bundle.getString("dataC");
+                cityLocation = city;
                 String country = bundle.getString("dn");
                 Log.d("ok", "onCreateView: " + city);
                 Log.d("ĐN", "onCreateView: " + country);
@@ -84,6 +88,11 @@ public class Today extends Fragment {
                 tempUnit = bundle.getString("tempUnit");
                 Log.d("today", "temp: " + tempUnit);
             }
+            if ( bundle.getString("cityLocation") != null && bundle.getString("cityLocation") != "") {
+                cityLocation = bundle.getString("cityLocation");
+                Log.d("today", "temp: " + cityLocation);
+            }
+
             if ( bundle.getString("windUnit") != null && bundle.getString("windUnit") != "") {
                 windUnit = bundle.getString("windUnit");
                 Log.d("today", "windUnit: " + windUnit);
@@ -141,9 +150,23 @@ public class Today extends Fragment {
 //        viewport.top = 110;
 //        lineChartView.setMaximumViewport(viewport);
 //        lineChartView.setCurrentViewport(viewport);
+        Thread t1 = new Thread() {
+            public void run() {
+                GetCurrentWeatherData(city);
+                get24hData(city);
+            }
+        };
+        Thread t2 = new Thread() {
+            public void run() {
+                GetCurrentWeatherPosition(cityLocation);
+            }
+        };
+        t1.start();
+        t2.start();
 
-        GetCurrentWeatherData(city);
-        get24hData(city);
+//        GetCurrentWeatherData(city);
+//        get24hData(city);
+//        GetCurrentWeatherPosition(cityLocation);
         Log.d("kdkd", "onCreateView: " + axisData);
         return view;
     }
@@ -217,8 +240,85 @@ public class Today extends Fragment {
                             JSONObject jsonObject1Clouds = jsonObject.getJSONObject("clouds");
                             String may = jsonObject1Clouds.getString("all");
                             //    txtCloud.setText(may + "%");
+                            Log.d("nhietdo","hiha " + Nhietdo);
 
-                            Paper.book().write("temp",nhietdo);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("today", "err:  " + error);
+                        Toast.makeText(getActivity().getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
+        requestQueue.add(stringRequest);
+    }
+
+    public void GetCurrentWeatherPosition(final String data) {
+        Log.d("today", "city: " + data);
+        RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + data + "&units=metric&appid=b195255676fe196e397398381ac43e10";
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            Log.d("RESPONSE API", response);
+
+                            String day = jsonObject.getString("dt");
+                            String city = jsonObject.getString("name");
+                            //    txtName.setText(name);
+
+                            long l = Long.valueOf(day);
+                            Date date = new Date(l * 1000L);
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE yyyy-MM-dd");
+                            String Day = simpleDateFormat.format(date);
+
+                            JSONArray jsonArrayWeather = jsonObject.getJSONArray("weather");
+                            JSONObject jsonObject1Weather = jsonArrayWeather.getJSONObject(0);
+                            String status = jsonObject1Weather.getString("main");
+                            String des = jsonObject1Weather.getString("description");
+                            String icon = jsonObject1Weather.getString("icon");
+                            //    txtState.setText(status);
+                            Log.d("status", "onResponse: " + status);
+                            JSONObject jsonObject1Main = jsonObject.getJSONObject("main");
+                            String nhietdo = jsonObject1Main.getString("temp");
+                            String doam = jsonObject1Main.getString("humidity");
+                            Double a = Double.valueOf(nhietdo);
+                            String Nhietdo = String.valueOf(a.intValue());
+                            if(tempUnit.equals("°F") ) {
+                                Log.d("today", "temp: " + "true");
+                                a = Utils.convertToF(Double.valueOf(nhietdo));
+                                Nhietdo = String.valueOf(a.intValue());
+                                tempF = Nhietdo + "°F";
+                            }
+                            else tempF = Nhietdo + "°C";
+
+
+
+
+                            JSONObject jsonObject1Wind = jsonObject.getJSONObject("wind");
+                            String gio = jsonObject1Wind.getString("speed");
+//
+                            if(windUnit.equals("m/s")) {
+//                                txtWind.setText("Wind : "+ gio + " m/s");
+                            }
+                            else {
+                                double win = Utils.convertToKmh(Double.valueOf(gio));
+                                Log.d("main", "win: " + win);
+//                                txtWind.setText("Wind : "+ String.valueOf(win) + " km/h");
+                            }
+
+                            JSONObject jsonObject1Clouds = jsonObject.getJSONObject("clouds");
+                            String may = jsonObject1Clouds.getString("all");
+
+                            Log.d("nhietdo","hiha " + Nhietdo);
+                            Paper.book().write("temp",tempF);
                             Paper.book().write("status",status);
                             Paper.book().write("city",city);
                             Paper.book().write("des",des);
@@ -238,7 +338,6 @@ public class Today extends Fragment {
                 });
         requestQueue.add(stringRequest);
     }
-
     private void get24hData(String data) {
         String url = "http://api.openweathermap.org/data/2.5/forecast?q=" + data + "&units=metric&cnt=8&appid=b195255676fe196e397398381ac43e10";
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
