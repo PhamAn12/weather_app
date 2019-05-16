@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,6 +10,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:id="@+id/today">
 
     <TextView
@@ -28,14 +30,15 @@
         android:paddingTop="10dp"
         android:paddingLeft="15dp"
         android:weightSum="2">
+
         <TextView
             android:id="@+id/txtTemp"
-            android:textColor="@color/common"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="37"
-            android:textSize="150dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:text="30"
+            android:textColor="@color/common"
+            android:textSize="120dp" />
 
         <ImageView
             android:id="@+id/iconweather"
@@ -46,16 +49,31 @@
              />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/doam"
-        android:textColor="@color/common"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cảm thấy buồn"
-        android:paddingLeft="15dp"
-        android:textSize="20dp"/>
+        android:layout_weight="2">
+        <TextView
+            android:id="@+id/txtTempDay"
+            android:textColor="@color/common"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cảm thấy buồn"
+            android:paddingLeft="15dp"
+            android:textSize="20dp"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TRời đẹp"
+            android:textSize="30dp"
+            android:textColor="@color/common"
+            />
+    </LinearLayout>
     <TextView
-        android:id="@+id/wind"
+        android:id="@+id/txtTempNight"
         android:textColor="@color/common"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,9 +91,91 @@
         android:layout_width="400dp"
         android:layout_height="100dp"
         android:layout_marginLeft="4dp"
-        android:layout_marginTop="90dp">
+        android:layout_marginTop="125dp">
     </android.support.v7.widget.RecyclerView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.4dp"
+        android:background="@android:color/black" />
+    <TextView
+        android:paddingTop="15dp"
+        android:paddingLeft="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Details "
+        android:textSize="25dp"
+        android:textColor="@color/common"/>
+    <TextView
+        android:paddingTop="5dp"
+        android:id="@+id/txtUvIndex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/common"
+        android:paddingLeft="15dp"
+        android:textSize="20dp"
+        android:text="Tia UV"/>
+    <TextView
+        android:id="@+id/doam"
+        android:textColor="@color/common"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cảm thấy buồn"
+        android:paddingLeft="15dp"
+        android:textSize="20dp" />
+    <TextView
+        android:id="@+id/wind"
+        android:textColor="@color/common"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:text="Đêm 19 Ngày 22"
+        android:textSize="20dp"/>
+    <View
+        android:layout_marginTop="10dp"
+        android:paddingTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.4dp"
+        android:background="@android:color/black" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txtWindTitle"
+            android:paddingLeft="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wind Speed (m/s)"
+            android:textColor="@color/common"
+            android:textSize="25dp"/>
 
+        <com.github.mikephil.charting.charts.BarChart
+            android:layout_marginTop="20dp"
+            android:id="@+id/barChart"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:paddingTop="45dp" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.4dp"
+        android:background="@android:color/black" />
+    <TextView
+        android:paddingTop="5dp"
+        android:paddingLeft="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textColor="@color/common"
+        android:text="Sunrise Sunset"/>
+    <com.github.tianma8023.ssv.SunriseSunsetView
+        android:paddingTop="5dp"
+        android:id="@+id/ssv"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
 
+        />
 </LinearLayout>
 </ScrollView>
