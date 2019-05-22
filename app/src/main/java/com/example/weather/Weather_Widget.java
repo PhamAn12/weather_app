@@ -46,7 +46,8 @@ import io.paperdb.Paper;
 public class Weather_Widget extends AppWidgetProvider {
     static String CLICK_ACTION = "CLICKED";
     ImageView img_widget;
-    String city = Paper.book().read("city");
+    String city = "";
+
     void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
         Intent intent = new Intent(context,Weather_Widget.class);
@@ -54,9 +55,15 @@ public class Weather_Widget extends AppWidgetProvider {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context,0,intent,0);
         //initPaper
         Paper.init(context);
+        city = Paper.book().read("city");
         Log.d("Widget", "1");
         //Read Content
-
+        if(city == null ) {
+            city = "Hoa Binh";
+        }
+        if(city.isEmpty()) {
+            city = "Hoa Binh";
+        }
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.weather__widget,null);
         Log.d("Widget", "2");

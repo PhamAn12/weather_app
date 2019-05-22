@@ -242,7 +242,7 @@ public class Today extends Fragment {
                                 a = Utils.convertToF(Double.valueOf(nhietdo));
                                 Nhietdo = String.valueOf(a.intValue());
                             }
-                            txtTemp.setText(Nhietdo + "°");
+                            txtTemp.setText(Nhietdo );
                             textDoam.setText("Humidity: " + doam + "%");
 
 
@@ -333,6 +333,38 @@ public class Today extends Fragment {
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE yyyy-MM-dd");
                             String Day = simpleDateFormat.format(date);
                             Log.d("Day7ngay", "onResponse: " + Day);
+
+                            JSONObject jsonObjectMain = jsonObjectList.getJSONObject("temp");
+                            String tempDay = jsonObjectMain.getString("day");
+                            String tempNight = jsonObjectMain.getString("night");
+                            Double a = Double.valueOf(tempDay);
+                            Double b = Double.valueOf(tempNight);
+                            String TempDay = String.valueOf(a.intValue());
+                            String TempNight = String.valueOf(b.intValue());
+                            if(tempUnit.equals("°F") ) {
+                                Log.d("today", "temp: " + "true");
+                                a = Utils.convertToF(Double.valueOf(tempDay));
+                                TempDay = String.valueOf(a.intValue());
+                                txtTempDay.setText("Day : " + TempDay + " °F ↑");
+                                Log.d("today", "temp: " + "true");
+                                b = Utils.convertToF(Double.valueOf(TempNight));
+                                TempNight = String.valueOf(b.intValue());
+                                txtTempNight.setText("Night : " + TempNight + " °F ↓");
+                            }
+                            else {
+                                txtTempDay.setText("Day : " + TempDay + " °C ↑");
+                                txtTempNight.setText("Night : " + TempNight + " °C ↓");
+                            }
+
+//                            if(tempUnit.equals("°F") ) {
+//                                Log.d("today", "temp: " + "true");
+//                                b = Utils.convertToF(Double.valueOf(TempNight));
+//                                TempNight = String.valueOf(b.intValue());
+//                                txtTempDay.setText("Night : " + TempNight + " °F ↓");
+//                            }
+//                            else
+//                                txtTempNight.setText("Night : " + TempNight + " °C ↓");
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -341,9 +373,8 @@ public class Today extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("today", "err:  " + error);
-                        Toast.makeText(getActivity().getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-
+                        Log.d("7ngay", "err:  " + error);
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
         requestQueue.add(stringRequest);
